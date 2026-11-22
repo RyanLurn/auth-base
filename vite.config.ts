@@ -13,7 +13,7 @@ export default defineConfig({
         semicolons: true,
       },
     }),
-    nitro,
+    nitro(),
     react({ compiler: true }),
     tailwindcss(),
   ],
