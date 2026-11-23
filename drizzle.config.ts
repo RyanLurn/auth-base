@@ -6,6 +6,6 @@ export default defineConfig({
   schema: "./src/db/schema/tables",
   dialect: "postgresql",
   dbCredentials: {
-    url: process.env.POSTGRESQL_CONNECTION_STRING!,
+    url: process.env.POSTGRESQL_MIGRATION_CONNECTION_STRING!,
   },
 });
