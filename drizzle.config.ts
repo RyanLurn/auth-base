@@ -1,6 +1,6 @@
 import { defineConfig } from "drizzle-kit";
 
-process.loadEnvFile();
+process.loadEnvFile(".env.local");
 
 export default defineConfig({
   schema: "./src/db/schema/tables",
