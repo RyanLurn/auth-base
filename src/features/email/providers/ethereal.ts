@@ -4,6 +4,8 @@ import type {
   Transporter,
 } from "nodemailer";
 
+import { composeErrorMessage, UnexpectedError } from "@little-nebulae/error";
+import { produceAsyncResult } from "@little-nebulae/result";
 import { createServerOnlyFn } from "@tanstack/react-start";
 import nodemailer from "nodemailer";
 
@@ -55,12 +57,32 @@ function getTransporter() {
 
 export const sendWithEthereal = createServerOnlyFn(
   async ({ from, to, subject, html, text }: SendEmailOptions) => {
-    const transporter = await getTransporter();
-    const info = await transporter.sendMail({ from, to, subject, html, text });
-    const previewUrl = nodemailer.getTestMessageUrl(info);
+    return produceAsyncResult({
+      tryFn: async () => {
+        const transporter = await getTransporter();
+        const info = await transporter.sendMail({
+          from,
+          to,
+          subject,
+          html,
+          text,
+        });
 
-    console.info(
-      `[email] "${subject}" -> ${to}\n  Preview: ${previewUrl || "n/a"}`,
-    );
+        const previewUrl = nodemailer.getTestMessageUrl(info);
+        console.info(
+          `[email] "${subject}" -> ${to}\n  Preview: ${previewUrl || "n/a"}`,
+        );
+
+        return { previewUrl, ...info };
+      },
+      catchFn: (error) =>
+        new UnexpectedError({
+          message: composeErrorMessage({
+            operation: "send email with Ethereal",
+          }),
+          cause: error,
+          meta: null,
+        }),
+    });
   },
 );
