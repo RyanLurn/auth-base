@@ -34,7 +34,7 @@ export const relations = defineRelations(
     },
     accounts: {
       user: one.users({
-        from: sessions.userId,
+        from: accounts.userId,
         to: users.id,
         optional: false,
       }),
