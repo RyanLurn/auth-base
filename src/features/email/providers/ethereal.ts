@@ -7,7 +7,11 @@ import type {
 import { composeErrorMessage, UnexpectedError } from "@little-nebulae/error";
 import { produceAsyncResult } from "@little-nebulae/result";
 import { createServerOnlyFn } from "@tanstack/react-start";
-import nodemailer from "nodemailer";
+import {
+  createTestAccount,
+  createTransport,
+  getTestMessageUrl,
+} from "nodemailer";
 
 import type { SendEmailOptions } from "@/features/email/types";
 
@@ -20,7 +24,7 @@ let transporterPromise:
 async function createTransporter() {
   // Optional: pin one inbox across dev-server restarts.
   if (env.ETHEREAL_USER && env.ETHEREAL_PASS) {
-    return nodemailer.createTransport({
+    return createTransport({
       host: "smtp.ethereal.email",
       port: 587,
       secure: false,
@@ -29,7 +33,7 @@ async function createTransporter() {
   }
 
   // Otherwise Nodemailer generates a throwaway account (cached per process).
-  const account = await nodemailer.createTestAccount();
+  const account = await createTestAccount();
   console.info(
     [
       "[email] Created a temporary Ethereal inbox. Log in at https://ethereal.email to view it:",
@@ -39,7 +43,7 @@ async function createTransporter() {
     ].join("\n"),
   );
 
-  return nodemailer.createTransport({
+  return createTransport({
     host: account.smtp.host,
     port: account.smtp.port,
     secure: account.smtp.secure,
@@ -68,7 +72,7 @@ export const sendWithEthereal = createServerOnlyFn(
           text,
         });
 
-        const previewUrl = nodemailer.getTestMessageUrl(info);
+        const previewUrl = getTestMessageUrl(info);
         console.info(
           `[email] "${subject}" -> ${to}\n  Preview: ${previewUrl || "n/a"}`,
         );
