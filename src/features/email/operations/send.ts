@@ -28,12 +28,13 @@ export const sendEmail = createServerOnlyFn(
     if (import.meta.env.DEV) {
       const { sendWithEthereal } =
         await import("@/features/email/providers/ethereal");
-      await sendWithEthereal(sendOptions);
-      return;
+      const etherealResult = await sendWithEthereal(sendOptions);
+      return { provider: "ethereal" as const, result: etherealResult };
     }
 
     const { sendWithResend } =
       await import("@/features/email/providers/resend");
-    return await sendWithResend(sendOptions);
+    const resendResult = await sendWithResend(sendOptions);
+    return { provider: "resend" as const, result: resendResult };
   },
 );
