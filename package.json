@@ -13,7 +13,8 @@
     "test": "vitest run",
     "db:check": "drizzle-kit check",
     "db:generate": "drizzle-kit generate",
-    "db:migrate": "drizzle-kit migrate"
+    "db:migrate": "drizzle-kit migrate",
+    "try": "oxnode --env-file-if-exists=.env.local src/try.ts"
   },
   "dependencies": {
     "@base-ui/react": "1.9.0",
@@ -41,6 +42,7 @@
     "zod": "4.6.7"
   },
   "devDependencies": {
+    "@oxc-node/cli": "1.0.2",
     "@tailwindcss/vite": "4.3.5",
     "@types/node": "26.6.6",
     "@types/pg": "8.23.1",
