@@ -15,8 +15,7 @@ import {
   pixelBasedPreset,
 } from "react-email";
 
-/** Change this once; every template picks it up. */
-export const APP_NAME = "Auth Base";
+import { APP_NAME } from "@/config/constants";
 
 /**
  * shadcn/ui tokens, pre-resolved to sRGB hex.

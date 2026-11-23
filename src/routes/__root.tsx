@@ -5,6 +5,7 @@ import { createRootRoute, HeadContent, Scripts } from "@tanstack/react-router";
 import { ThemeProvider } from "@/components/theme/provider";
 import { ThemeToggle } from "@/components/theme/toggle";
 import { Toaster } from "@/components/ui/toast";
+import { APP_NAME } from "@/config/constants";
 import styles from "@/styles/index.css?url";
 
 export const Route = createRootRoute({
@@ -18,7 +19,7 @@ export const Route = createRootRoute({
         name: "viewport",
       },
       {
-        title: "Auth base",
+        title: APP_NAME,
       },
     ],
     links: [
