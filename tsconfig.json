@@ -30,6 +30,7 @@
   "include": [
     "nitro/**/*",
     "src/**/*",
+    "drizzle.config.ts",
     "nitro.config.ts",
     "vite.config.ts",
     "vitest.config.ts"
