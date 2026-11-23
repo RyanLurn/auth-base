@@ -14,7 +14,7 @@ function BetterAuthSecretSchema<TVersion extends number>({
 
 const EnvSchema = z.object({
   POSTGRESQL_CONNECTION_STRING: NonEmptyStringSchema,
-  BETTER_AUTH_VERSION_1_SECRET: BetterAuthSecretSchema({ version: 1 }),
+  BETTER_AUTH_SECRET_VERSION_1: BetterAuthSecretSchema({ version: 1 }),
   BETTER_AUTH_URL: z.url(),
 });
 
