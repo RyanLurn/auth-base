@@ -23,8 +23,15 @@
     "exactOptionalPropertyTypes": true,
 
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "nitro/*": ["./nitro/*"]
     }
   },
-  "include": ["src/**/*", "vite.config.ts", "vitest.config.ts"]
+  "include": [
+    "nitro/**/*",
+    "src/**/*",
+    "nitro.config.ts",
+    "vite.config.ts",
+    "vitest.config.ts"
+  ]
 }
