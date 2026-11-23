@@ -283,6 +283,9 @@ importers:
       nitro:
         specifier: 3.0.261103-rc
         version: 3.0.261103-rc
+      nodemailer:
+        specifier: 10.6.1
+        version: 10.6.1
       oxc-transform-react:
         specifier: 0.158.0
         version: 0.158.0
@@ -3193,6 +3196,10 @@ packages:
   node-releases@2.0.65:
     resolution: {integrity: sha512-PfvofsGQ+MiOQIPkX9fU8ELUWmy5zL74CdQaph/ismKszfFkfwXaw0cGiwbwym2hT9k5+mdyl8O5WQ1MD8EHmA==}
     engines: {node: '>=18'}
+
+  nodemailer@10.6.1:
+    resolution: {integrity: sha512-d7kfFfS/tR4Aca+SBvRaQ+MXKNv7d2JiRe5TxaRcFT/kYMh4GGPnW9aKksTIEvyEbA7d/7HYWE4YPDEHxzJj/g==}
+    engines: {node: '>=20.0.0'}
 
   npm-run-path@4.0.1:
     resolution: {integrity: sha512-S48WzZW777zhNIrn7gxOlISNAqi9ZC/uQFnRdbeIHhZhCA6UqpkOT8T1G7BvfdgP4Er8gF4sUbaS0i7QvIfCWw==}
@@ -6192,6 +6199,8 @@ snapshots:
       srvx: 1.0.8
 
   node-releases@2.0.65: {}
+
+  nodemailer@10.6.1: {}
 
   npm-run-path@4.0.1:
     dependencies:
