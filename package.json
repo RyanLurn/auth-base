@@ -14,7 +14,7 @@
     "db:check": "drizzle-kit check",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
-    "email:dev": "email dev",
+    "email:dev": "email dev --dir src/features/email/components/emails",
     "try": "oxnode --env-file-if-exists=.env.local src/try.ts"
   },
   "dependencies": {
