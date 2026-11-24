@@ -23,7 +23,9 @@
     "@fontsource-variable/geist": "5.3.0",
     "@fontsource-variable/geist-mono": "5.3.0",
     "@little-nebulae/error": "1.5.0",
-    "@little-nebulae/result": "1.6.0",
+    "@little-nebulae/http": "0.5.0",
+    "@little-nebulae/result": "1.6.1",
+    "@little-nebulae/web-fetch": "0.6.0",
     "@little-nebulae/zod-schemas": "0.3.0",
     "@tanstack/react-form": "1.33.5",
     "@tanstack/react-router": "1.170.46",
@@ -45,6 +47,7 @@
     "zod": "4.6.7"
   },
   "devDependencies": {
+    "@little-nebulae/utility-types": "0.5.0",
     "@oxc-node/cli": "1.0.2",
     "@react-email/ui": "6.11.16",
     "@tailwindcss/vite": "4.3.5",

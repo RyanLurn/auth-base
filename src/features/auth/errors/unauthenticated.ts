@@ -2,7 +2,7 @@ import { BaseError } from "@little-nebulae/error";
 
 import { UNAUTHENTICATED_ERROR_CODE } from "@/features/auth/constants";
 
-type UnauthenticatedErrorMeta = {
+export type UnauthenticatedErrorMeta = {
   hasSessionTokenCookie: boolean;
   hasSessionDataCookie: boolean;
 };
