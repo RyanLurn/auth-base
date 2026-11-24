@@ -1,4 +1,5 @@
 import { APP_NAME } from "@/config/constants";
+import { EMAIL_VERIFICATION_EXPIRES_IN_MINUTES } from "@/features/auth/constants";
 import { EmailLayout } from "@/features/email/components/layout";
 import { EmailButton } from "@/features/email/components/ui/button";
 import { EmailHeading } from "@/features/email/components/ui/heading";
@@ -9,14 +10,13 @@ import { EmailText } from "@/features/email/components/ui/text";
 type VerifyEmailProps = {
   name?: string;
   verificationUrl: string;
-  /** Human-readable, e.g. "1 hour". */
-  expiresIn?: string;
+  expiresInMinutes: number;
 };
 
 export default function VerifyEmail({
   name,
   verificationUrl,
-  expiresIn = "1 hour",
+  expiresInMinutes,
 }: VerifyEmailProps) {
   return (
     <EmailLayout
@@ -29,7 +29,9 @@ export default function VerifyEmail({
         Confirm your email address to finish setting up your account.
       </EmailText>
       <EmailButton href={verificationUrl}>Verify email</EmailButton>
-      <EmailText muted>This link expires in {expiresIn}.</EmailText>
+      <EmailText muted>
+        This link expires in {expiresInMinutes} minutes.
+      </EmailText>
       <EmailSeparator />
       <EmailLinkFallback href={verificationUrl} />
     </EmailLayout>
@@ -39,5 +41,5 @@ export default function VerifyEmail({
 VerifyEmail.PreviewProps = {
   name: "Ada",
   verificationUrl: "https://example.com/api/auth/verify-email?token=abc123",
-  expiresIn: "1 hour",
+  expiresInMinutes: EMAIL_VERIFICATION_EXPIRES_IN_MINUTES,
 } satisfies VerifyEmailProps;

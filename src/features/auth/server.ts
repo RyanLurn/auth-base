@@ -12,6 +12,7 @@ import {
   verificationTable,
 } from "@/db/schema/tables/auth";
 import { userTable } from "@/db/schema/tables/user";
+import { EMAIL_VERIFICATION_EXPIRES_IN_MINUTES } from "@/features/auth/constants";
 import VerifyEmail from "@/features/email/components/emails/verify-email";
 import { sendEmail } from "@/features/email/operations/send";
 
@@ -39,6 +40,7 @@ export const authServer = betterAuth({
   },
   emailVerification: {
     autoSignInAfterVerification: true,
+    expiresIn: EMAIL_VERIFICATION_EXPIRES_IN_MINUTES * 60,
     sendVerificationEmail: async ({ user, url }) => {
       void sendEmail({
         to: user.email,
@@ -46,6 +48,7 @@ export const authServer = betterAuth({
         reactEmail: createElement(VerifyEmail, {
           name: user.name,
           verificationUrl: url,
+          expiresInMinutes: EMAIL_VERIFICATION_EXPIRES_IN_MINUTES,
         }),
       }).then((value) => {
         if (value.provider === "resend") {
