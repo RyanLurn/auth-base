@@ -44,6 +44,7 @@ export const authServer = betterAuth({
     requireEmailVerification: true,
     minPasswordLength: MIN_PASSWORD_LENGTH,
     maxPasswordLength: MAX_PASSWORD_LENGTH,
+    revokeSessionsOnPasswordReset: true,
   },
   emailVerification: {
     autoSignInAfterVerification: true,
