@@ -31,6 +31,7 @@ export const authServer = betterAuth({
       account: accountTable,
       verification: verificationTable,
     },
+    transaction: true,
   }),
   advanced: {
     database: {
