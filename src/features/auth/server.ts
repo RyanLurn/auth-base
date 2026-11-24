@@ -1,5 +1,6 @@
 import { drizzleAdapter } from "@better-auth/drizzle-adapter/relations-v2";
 import { betterAuth } from "better-auth/minimal";
+import { haveIBeenPwned } from "better-auth/plugins";
 import { tanstackStartCookies } from "better-auth/tanstack-start";
 
 import { env } from "@/config/env";
@@ -33,5 +34,5 @@ export const authServer = betterAuth({
     enabled: true,
   },
   // Make sure to keep the tanstackStartCookies plugin at the end of the array.
-  plugins: [tanstackStartCookies()],
+  plugins: [haveIBeenPwned(), tanstackStartCookies()],
 });
