@@ -2,6 +2,7 @@ import { drizzleAdapter } from "@better-auth/drizzle-adapter/relations-v2";
 import { betterAuth } from "better-auth/minimal";
 import { haveIBeenPwned } from "better-auth/plugins";
 import { tanstackStartCookies } from "better-auth/tanstack-start";
+import { createElement } from "react";
 
 import { env } from "@/config/env";
 import { db } from "@/db";
@@ -11,6 +12,8 @@ import {
   verificationTable,
 } from "@/db/schema/tables/auth";
 import { userTable } from "@/db/schema/tables/user";
+import VerifyEmail from "@/features/email/components/emails/verify-email";
+import { sendEmail } from "@/features/email/operations/send";
 
 export const authServer = betterAuth({
   baseURL: env.BETTER_AUTH_URL,
@@ -32,6 +35,31 @@ export const authServer = betterAuth({
   },
   emailAndPassword: {
     enabled: true,
+  },
+  emailVerification: {
+    sendVerificationEmail: async ({ user, url }) => {
+      void sendEmail({
+        to: user.email,
+        subject: "Verify your email address",
+        reactEmail: createElement(VerifyEmail, {
+          name: user.name,
+          verificationUrl: url,
+        }),
+      }).then((value) => {
+        if (value.provider === "resend") {
+          const { result } = value;
+          if (!result.success) {
+            console.error(result.error);
+          }
+          return;
+        }
+
+        const { result } = value;
+        if (!result.success) {
+          console.error(result.error);
+        }
+      });
+    },
   },
   // Make sure to keep the tanstackStartCookies plugin at the end of the array.
   plugins: [haveIBeenPwned(), tanstackStartCookies()],
