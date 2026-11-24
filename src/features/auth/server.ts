@@ -21,7 +21,7 @@ import VerifyEmail from "@/features/email/components/emails/verify-email";
 import { sendEmail } from "@/features/email/operations/send";
 
 export const authServer = betterAuth({
-  baseURL: env.BETTER_AUTH_URL,
+  baseURL: import.meta.env.BASE_URL,
   secrets: [env.BETTER_AUTH_SECRET_VERSION_1],
   database: drizzleAdapter(db, {
     provider: "pg",
