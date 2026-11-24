@@ -23,7 +23,7 @@ import { sendEmail } from "@/features/email/operations/send";
 
 export const authServer = betterAuth({
   appName: APP_NAME,
-  baseURL: import.meta.env.VITE_BETTER_AUTH_URL,
+  baseURL: env.BETTER_AUTH_URL,
   secrets: [env.BETTER_AUTH_SECRET_VERSION_1],
   database: drizzleAdapter(db, {
     provider: "pg",
