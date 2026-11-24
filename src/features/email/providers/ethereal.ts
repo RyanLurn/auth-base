@@ -15,7 +15,7 @@ import {
 
 import type { SendEmailOptions } from "@/features/email/types";
 
-import { env } from "@/config/env";
+import { env } from "@/config/env.server";
 
 let transporterPromise:
   | Promise<Transporter<SMTPSentMessageInfo, SMTPTransportOptions>>

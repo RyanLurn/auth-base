@@ -6,7 +6,7 @@ import { tanstackStartCookies } from "better-auth/tanstack-start";
 import { createElement } from "react";
 
 import { APP_NAME } from "@/config/constants";
-import { env } from "@/config/env";
+import { env } from "@/config/env.server";
 import { db } from "@/db";
 import {
   accountTable,

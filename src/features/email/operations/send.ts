@@ -5,7 +5,7 @@ import { toPlainText } from "react-email";
 
 import type { SendEmailOptions } from "@/features/email/types";
 
-import { env } from "@/config/env";
+import { env } from "@/config/env.server";
 import { renderEmail } from "@/features/email/operations/render";
 
 interface SendEmailParams extends Pick<SendEmailOptions, "to" | "subject"> {
