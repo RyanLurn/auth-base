@@ -12,7 +12,11 @@ import {
   verificationTable,
 } from "@/db/schema/tables/auth";
 import { userTable } from "@/db/schema/tables/user";
-import { EMAIL_VERIFICATION_EXPIRES_IN_MINUTES } from "@/features/auth/constants";
+import {
+  EMAIL_VERIFICATION_EXPIRES_IN_MINUTES,
+  MAX_PASSWORD_LENGTH,
+  MIN_PASSWORD_LENGTH,
+} from "@/features/auth/constants";
 import VerifyEmail from "@/features/email/components/emails/verify-email";
 import { sendEmail } from "@/features/email/operations/send";
 
@@ -37,6 +41,8 @@ export const authServer = betterAuth({
   emailAndPassword: {
     enabled: true,
     requireEmailVerification: true,
+    minPasswordLength: MIN_PASSWORD_LENGTH,
+    maxPasswordLength: MAX_PASSWORD_LENGTH,
   },
   emailVerification: {
     autoSignInAfterVerification: true,

@@ -1,1 +1,4 @@
 export const EMAIL_VERIFICATION_EXPIRES_IN_MINUTES = 60;
+
+export const MIN_PASSWORD_LENGTH = 12;
+export const MAX_PASSWORD_LENGTH = 128;
