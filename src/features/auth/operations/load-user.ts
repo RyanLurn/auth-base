@@ -10,7 +10,7 @@ import {
   setResponseStatus,
 } from "@tanstack/react-start/server";
 
-import type { UNAUTHENTICATED_ERROR_CODE } from "@/features/auth/constants";
+import type { UnauthenticatedErrorCode } from "@/features/auth/errors/unauthenticated";
 import type { AuthUser } from "@/features/auth/types";
 
 import { getAuthSession } from "@/features/auth/operations/get-session";
@@ -20,8 +20,7 @@ export const loadAuthUser = createServerFn().handler(
     Except<AuthUser, "createdAt" | "updatedAt" | "image"> & {
       image: string | null;
     },
-    | FlatError<typeof UNAUTHENTICATED_ERROR_CODE>
-    | FlatError<UnexpectedErrorCode>
+    FlatError<UnauthenticatedErrorCode> | FlatError<UnexpectedErrorCode>
   > => {
     const headers = getRequestHeaders();
 
@@ -49,7 +48,7 @@ export const loadAuthUser = createServerFn().handler(
         code: getAuthSessionError.code,
         message: "You are unauthenticated. Please sign in to continue.",
         meta: null,
-      } satisfies FlatError<typeof UNAUTHENTICATED_ERROR_CODE>);
+      } satisfies FlatError<UnauthenticatedErrorCode>);
     }
 
     setResponseStatus(
