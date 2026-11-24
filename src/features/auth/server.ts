@@ -15,9 +15,12 @@ import {
 } from "@/db/schema/tables/auth";
 import { userTable } from "@/db/schema/tables/user";
 import {
+  COOKIE_PREFIX,
   EMAIL_VERIFICATION_EXPIRES_IN_MINUTES,
   MAX_PASSWORD_LENGTH,
   MIN_PASSWORD_LENGTH,
+  SESSION_DATA_COOKIE_SUFFIX,
+  SESSION_TOKEN_COOKIE_SUFFIX,
 } from "@/features/auth/constants";
 import VerifyEmail from "@/features/email/components/emails/verify-email";
 import { sendEmail } from "@/features/email/operations/send";
@@ -40,6 +43,15 @@ export const authServer = betterAuth({
     database: {
       generateId: false,
       joins: true,
+    },
+    cookiePrefix: COOKIE_PREFIX,
+    cookies: {
+      session_token: {
+        name: SESSION_TOKEN_COOKIE_SUFFIX,
+      },
+      session_data: {
+        name: SESSION_DATA_COOKIE_SUFFIX,
+      },
     },
   },
   emailAndPassword: {

@@ -4,3 +4,9 @@ export const MIN_PASSWORD_LENGTH = 12;
 export const MAX_PASSWORD_LENGTH = 128;
 
 export const UNAUTHENTICATED_ERROR_CODE = "UNAUTHENTICATED_ERROR";
+
+export const COOKIE_PREFIX = "auth_base";
+export const SESSION_TOKEN_COOKIE_SUFFIX = "session_token";
+export const SESSION_TOKEN_COOKIE = `${COOKIE_PREFIX}.${SESSION_TOKEN_COOKIE_SUFFIX}`;
+export const SESSION_DATA_COOKIE_SUFFIX = "session_data";
+export const SESSION_DATA_COOKIE = `${COOKIE_PREFIX}.${SESSION_DATA_COOKIE_SUFFIX}`;
