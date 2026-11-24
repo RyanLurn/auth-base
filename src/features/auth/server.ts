@@ -4,6 +4,7 @@ import { haveIBeenPwned } from "better-auth/plugins";
 import { tanstackStartCookies } from "better-auth/tanstack-start";
 import { createElement } from "react";
 
+import { APP_NAME } from "@/config/constants";
 import { env } from "@/config/env";
 import { db } from "@/db";
 import {
@@ -21,6 +22,7 @@ import VerifyEmail from "@/features/email/components/emails/verify-email";
 import { sendEmail } from "@/features/email/operations/send";
 
 export const authServer = betterAuth({
+  appName: APP_NAME,
   baseURL: import.meta.env.BASE_URL,
   secrets: [env.BETTER_AUTH_SECRET_VERSION_1],
   database: drizzleAdapter(db, {
