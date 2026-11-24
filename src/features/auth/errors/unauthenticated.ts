@@ -1,20 +1,27 @@
-import type { BaseErrorMeta } from "@little-nebulae/error";
-
 import { BaseError } from "@little-nebulae/error";
 
 import { UNAUTHENTICATED_ERROR_CODE } from "@/features/auth/constants";
 
-export class UnauthenticatedError<
-  TMeta extends BaseErrorMeta = null,
-> extends BaseError<
+type UnauthenticatedErrorMeta = {
+  hasSessionTokenCookie: boolean;
+  hasSessionDataCookie: boolean;
+};
+
+export class UnauthenticatedError extends BaseError<
   typeof UNAUTHENTICATED_ERROR_CODE,
   "No valid session.",
-  TMeta
+  UnauthenticatedErrorMeta
 > {
   readonly name = "UnauthenticatedError";
   readonly code = UNAUTHENTICATED_ERROR_CODE;
 
-  constructor({ message, meta }: { message: string; meta: TMeta }) {
+  constructor({
+    message,
+    meta,
+  }: {
+    message: string;
+    meta: UnauthenticatedErrorMeta;
+  }) {
     super({ message, cause: "No valid session.", meta });
   }
 }
