@@ -16,7 +16,7 @@ import {
 import type { UnauthenticatedErrorCode } from "@/features/auth/errors/unauthenticated";
 import type { AuthUser } from "@/features/auth/types";
 
-import { getAuthUser } from "@/features/auth/operations/get-user";
+import { getAuthUser } from "@/features/auth/operations/get-user.server";
 import { superjsonCodec } from "@/lib/superjson";
 
 export const loadAuthUser = createServerFn().handler(
