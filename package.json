@@ -25,6 +25,7 @@
     "@little-nebulae/error": "1.5.0",
     "@little-nebulae/http": "0.5.0",
     "@little-nebulae/result": "1.6.1",
+    "@little-nebulae/superjson": "0.4.0",
     "@little-nebulae/web-fetch": "0.6.0",
     "@little-nebulae/zod-schemas": "0.3.0",
     "@tanstack/react-form": "1.33.5",
