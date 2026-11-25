@@ -21,9 +21,7 @@ export const getAuthUser = createServerFn().handler(
     FlatError<UnauthenticatedErrorCode> | FlatError<UnexpectedErrorCode>
   > => {
     const headers = getRequestHeaders();
-
     const getUserResult = await serverGetAuthUser({ headers });
-
     if (getUserResult.success) {
       const encodedUser = unwrapResult(
         superjsonCodec.encode({
@@ -34,7 +32,6 @@ export const getAuthUser = createServerFn().handler(
     }
 
     const getUserError = getUserResult.error;
-
     if (getUserError.code === "UNAUTHENTICATED_ERROR") {
       return createJsonFailure({
         code: getUserError.code,
@@ -42,7 +39,6 @@ export const getAuthUser = createServerFn().handler(
         meta: null,
       } satisfies FlatError<UnauthenticatedErrorCode>);
     }
-
     return createJsonFailure({
       code: getUserError.code,
       message:
