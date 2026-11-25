@@ -4,14 +4,10 @@ import type {
   SuperJSONResultOf,
 } from "@little-nebulae/superjson";
 
-import { HTTP_ERROR_RESPONSE_STATUS_ENUM } from "@little-nebulae/http";
 import { createJsonFailure, unwrapResult } from "@little-nebulae/result";
 import { createEncodedSuccess } from "@little-nebulae/superjson";
 import { createServerFn } from "@tanstack/react-start";
-import {
-  getRequestHeaders,
-  setResponseStatus,
-} from "@tanstack/react-start/server";
+import { getRequestHeaders } from "@tanstack/react-start/server";
 
 import type { UnauthenticatedErrorCode } from "@/features/auth/errors/unauthenticated";
 import type { AuthUser } from "@/features/auth/types";
@@ -40,10 +36,6 @@ export const getAuthUser = createServerFn().handler(
     const getUserError = getUserResult.error;
 
     if (getUserError.code === "UNAUTHENTICATED_ERROR") {
-      setResponseStatus(
-        HTTP_ERROR_RESPONSE_STATUS_ENUM.UNAUTHORIZED.CODE,
-        HTTP_ERROR_RESPONSE_STATUS_ENUM.UNAUTHORIZED.TEXT,
-      );
       return createJsonFailure({
         code: getUserError.code,
         message: "You are unauthenticated. Please sign in to continue.",
@@ -51,10 +43,6 @@ export const getAuthUser = createServerFn().handler(
       } satisfies FlatError<UnauthenticatedErrorCode>);
     }
 
-    setResponseStatus(
-      HTTP_ERROR_RESPONSE_STATUS_ENUM.INTERNAL_SERVER_ERROR.CODE,
-      HTTP_ERROR_RESPONSE_STATUS_ENUM.INTERNAL_SERVER_ERROR.TEXT,
-    );
     return createJsonFailure({
       code: getUserError.code,
       message:
