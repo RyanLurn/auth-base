@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from "./routes/__root";
 import { Route as IndexRouteImport } from "./routes/index";
+import { Route as AuthenticatedRouteRouteImport } from "./routes/_authenticated/route";
 import { Route as AuthenticatedDashboardIndexRouteImport } from "./routes/_authenticated/dashboard/index";
 import { Route as ApiAuthSplatRouteImport } from "./routes/api/auth/$";
 
@@ -18,11 +19,15 @@ const IndexRoute = IndexRouteImport.update({
   path: "/",
   getParentRoute: () => rootRouteImport,
 } as any);
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: "/_authenticated",
+  getParentRoute: () => rootRouteImport,
+} as any);
 const AuthenticatedDashboardIndexRoute =
   AuthenticatedDashboardIndexRouteImport.update({
-    id: "/_authenticated/dashboard/",
+    id: "/dashboard/",
     path: "/dashboard/",
-    getParentRoute: () => rootRouteImport,
+    getParentRoute: () => AuthenticatedRouteRoute,
   } as any);
 const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
   id: "/api/auth/$",
@@ -43,6 +48,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport;
   "/": typeof IndexRoute;
+  "/_authenticated": typeof AuthenticatedRouteRouteWithChildren;
   "/api/auth/$": typeof ApiAuthSplatRoute;
   "/_authenticated/dashboard/": typeof AuthenticatedDashboardIndexRoute;
 }
@@ -51,13 +57,18 @@ export interface FileRouteTypes {
   fullPaths: "/" | "/api/auth/$" | "/dashboard/";
   fileRoutesByTo: FileRoutesByTo;
   to: "/" | "/api/auth/$" | "/dashboard";
-  id: "__root__" | "/" | "/api/auth/$" | "/_authenticated/dashboard/";
+  id:
+    | "__root__"
+    | "/"
+    | "/_authenticated"
+    | "/api/auth/$"
+    | "/_authenticated/dashboard/";
   fileRoutesById: FileRoutesById;
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute;
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren;
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute;
-  AuthenticatedDashboardIndexRoute: typeof AuthenticatedDashboardIndexRoute;
 }
 
 declare module "@tanstack/react-router" {
@@ -69,12 +80,19 @@ declare module "@tanstack/react-router" {
       preLoaderRoute: typeof IndexRouteImport;
       parentRoute: typeof rootRouteImport;
     };
+    "/_authenticated": {
+      id: "/_authenticated";
+      path: "";
+      fullPath: "/";
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
     "/_authenticated/dashboard/": {
       id: "/_authenticated/dashboard/";
       path: "/dashboard";
       fullPath: "/dashboard/";
       preLoaderRoute: typeof AuthenticatedDashboardIndexRouteImport;
-      parentRoute: typeof rootRouteImport;
+      parentRoute: typeof AuthenticatedRouteRoute;
     };
     "/api/auth/$": {
       id: "/api/auth/$";
@@ -86,10 +104,21 @@ declare module "@tanstack/react-router" {
   }
 }
 
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedDashboardIndexRoute: typeof AuthenticatedDashboardIndexRoute;
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedDashboardIndexRoute: AuthenticatedDashboardIndexRoute,
+};
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren);
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
-  AuthenticatedDashboardIndexRoute: AuthenticatedDashboardIndexRoute,
 };
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
