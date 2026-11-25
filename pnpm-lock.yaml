@@ -205,6 +205,9 @@ importers:
       '@little-nebulae/http':
         specifier: 0.5.0
         version: 0.5.0(@little-nebulae/utility-types@0.5.0(type-fest@6.0.3))(type-fest@6.0.3)
+      '@little-nebulae/json':
+        specifier: 0.8.0
+        version: 0.8.0(@little-nebulae/error@1.5.0(type-fest@6.0.3))(@little-nebulae/result@1.6.1(@little-nebulae/error@1.5.0(type-fest@6.0.3))(type-fest@6.0.3))(type-fest@6.0.3)
       '@little-nebulae/result':
         specifier: 1.6.1
         version: 1.6.1(@little-nebulae/error@1.5.0(type-fest@6.0.3))(type-fest@6.0.3)
@@ -213,7 +216,7 @@ importers:
         version: 0.5.0(@little-nebulae/error@1.5.0(type-fest@6.0.3))(@little-nebulae/result@1.6.1(@little-nebulae/error@1.5.0(type-fest@6.0.3))(type-fest@6.0.3))(@little-nebulae/zod-schemas@0.3.0(type-fest@6.0.3)(zod@4.6.7))(type-fest@6.0.3)(zod@4.6.7)
       '@little-nebulae/web-fetch':
         specifier: 0.6.0
-        version: 0.6.0(@little-nebulae/error@1.5.0(type-fest@6.0.3))(@little-nebulae/http@0.5.0(@little-nebulae/utility-types@0.5.0(type-fest@6.0.3))(type-fest@6.0.3))(@little-nebulae/json@0.7.0(@little-nebulae/error@1.5.0(type-fest@6.0.3))(@little-nebulae/result@1.6.1(@little-nebulae/error@1.5.0(type-fest@6.0.3))(type-fest@6.0.3))(type-fest@6.0.3))(@little-nebulae/result@1.6.1(@little-nebulae/error@1.5.0(type-fest@6.0.3))(type-fest@6.0.3))(@little-nebulae/utility-types@0.5.0(type-fest@6.0.3))(type-fest@6.0.3)
+        version: 0.6.0(@little-nebulae/error@1.5.0(type-fest@6.0.3))(@little-nebulae/http@0.5.0(@little-nebulae/utility-types@0.5.0(type-fest@6.0.3))(type-fest@6.0.3))(@little-nebulae/json@0.8.0(@little-nebulae/error@1.5.0(type-fest@6.0.3))(@little-nebulae/result@1.6.1(@little-nebulae/error@1.5.0(type-fest@6.0.3))(type-fest@6.0.3))(type-fest@6.0.3))(@little-nebulae/result@1.6.1(@little-nebulae/error@1.5.0(type-fest@6.0.3))(type-fest@6.0.3))(@little-nebulae/utility-types@0.5.0(type-fest@6.0.3))(type-fest@6.0.3)
       '@little-nebulae/zod-schemas':
         specifier: 0.3.0
         version: 0.3.0(type-fest@6.0.3)(zod@4.6.7)
@@ -970,8 +973,8 @@ packages:
       '@little-nebulae/utility-types': '0'
       type-fest: ^6.0.0
 
-  '@little-nebulae/json@0.7.0':
-    resolution: {integrity: sha512-yxPvxzDx2sT4R4Sjuf5OOTwnhosnGEhn//3TNO8WyoYuTUzXHXSPDI2Jc2gsSyi3LMWbEloQqb/QalofhLXkiA==}
+  '@little-nebulae/json@0.8.0':
+    resolution: {integrity: sha512-NdewrmNsSQLnur9lwF8CJYvlHN3MU/TnmbGNAmcsnPtyp/C+sDvvWQm7ppZNCc/zaIRSRrnSLsc3YVrsGBGH2A==}
     peerDependencies:
       '@little-nebulae/error': ^1.0.0
       '@little-nebulae/result': ^1.0.0
@@ -4617,7 +4620,7 @@ snapshots:
       '@little-nebulae/utility-types': 0.5.0(type-fest@6.0.3)
       type-fest: 6.0.3
 
-  '@little-nebulae/json@0.7.0(@little-nebulae/error@1.5.0(type-fest@6.0.3))(@little-nebulae/result@1.6.1(@little-nebulae/error@1.5.0(type-fest@6.0.3))(type-fest@6.0.3))(type-fest@6.0.3)':
+  '@little-nebulae/json@0.8.0(@little-nebulae/error@1.5.0(type-fest@6.0.3))(@little-nebulae/result@1.6.1(@little-nebulae/error@1.5.0(type-fest@6.0.3))(type-fest@6.0.3))(type-fest@6.0.3)':
     dependencies:
       '@little-nebulae/error': 1.5.0(type-fest@6.0.3)
       '@little-nebulae/result': 1.6.1(@little-nebulae/error@1.5.0(type-fest@6.0.3))(type-fest@6.0.3)
@@ -4642,11 +4645,11 @@ snapshots:
     dependencies:
       type-fest: 6.0.3
 
-  '@little-nebulae/web-fetch@0.6.0(@little-nebulae/error@1.5.0(type-fest@6.0.3))(@little-nebulae/http@0.5.0(@little-nebulae/utility-types@0.5.0(type-fest@6.0.3))(type-fest@6.0.3))(@little-nebulae/json@0.7.0(@little-nebulae/error@1.5.0(type-fest@6.0.3))(@little-nebulae/result@1.6.1(@little-nebulae/error@1.5.0(type-fest@6.0.3))(type-fest@6.0.3))(type-fest@6.0.3))(@little-nebulae/result@1.6.1(@little-nebulae/error@1.5.0(type-fest@6.0.3))(type-fest@6.0.3))(@little-nebulae/utility-types@0.5.0(type-fest@6.0.3))(type-fest@6.0.3)':
+  '@little-nebulae/web-fetch@0.6.0(@little-nebulae/error@1.5.0(type-fest@6.0.3))(@little-nebulae/http@0.5.0(@little-nebulae/utility-types@0.5.0(type-fest@6.0.3))(type-fest@6.0.3))(@little-nebulae/json@0.8.0(@little-nebulae/error@1.5.0(type-fest@6.0.3))(@little-nebulae/result@1.6.1(@little-nebulae/error@1.5.0(type-fest@6.0.3))(type-fest@6.0.3))(type-fest@6.0.3))(@little-nebulae/result@1.6.1(@little-nebulae/error@1.5.0(type-fest@6.0.3))(type-fest@6.0.3))(@little-nebulae/utility-types@0.5.0(type-fest@6.0.3))(type-fest@6.0.3)':
     dependencies:
       '@little-nebulae/error': 1.5.0(type-fest@6.0.3)
       '@little-nebulae/http': 0.5.0(@little-nebulae/utility-types@0.5.0(type-fest@6.0.3))(type-fest@6.0.3)
-      '@little-nebulae/json': 0.7.0(@little-nebulae/error@1.5.0(type-fest@6.0.3))(@little-nebulae/result@1.6.1(@little-nebulae/error@1.5.0(type-fest@6.0.3))(type-fest@6.0.3))(type-fest@6.0.3)
+      '@little-nebulae/json': 0.8.0(@little-nebulae/error@1.5.0(type-fest@6.0.3))(@little-nebulae/result@1.6.1(@little-nebulae/error@1.5.0(type-fest@6.0.3))(type-fest@6.0.3))(type-fest@6.0.3)
       '@little-nebulae/result': 1.6.1(@little-nebulae/error@1.5.0(type-fest@6.0.3))(type-fest@6.0.3)
       '@little-nebulae/utility-types': 0.5.0(type-fest@6.0.3)
       type-fest: 6.0.3

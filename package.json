@@ -24,6 +24,7 @@
     "@fontsource-variable/geist-mono": "5.3.0",
     "@little-nebulae/error": "1.5.0",
     "@little-nebulae/http": "0.5.0",
+    "@little-nebulae/json": "0.8.0",
     "@little-nebulae/result": "1.6.1",
     "@little-nebulae/superjson": "0.5.0",
     "@little-nebulae/web-fetch": "0.6.0",
