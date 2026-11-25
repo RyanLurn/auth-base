@@ -19,7 +19,7 @@ import type { AuthUser } from "@/features/auth/types";
 import { serverGetAuthUser } from "@/features/auth/operations/server-get-user";
 import { superjsonCodec } from "@/lib/superjson";
 
-export const loadAuthUser = createServerFn().handler(
+export const getAuthUser = createServerFn().handler(
   async (): AsyncEncodedResult<
     SuperJSONResultOf<AuthUser>,
     FlatError<UnauthenticatedErrorCode> | FlatError<UnexpectedErrorCode>
