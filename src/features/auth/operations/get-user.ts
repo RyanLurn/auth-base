@@ -26,26 +26,26 @@ export const getAuthUser = createServerFn().handler(
   > => {
     const headers = getRequestHeaders();
 
-    const getAuthUserResult = await serverGetAuthUser({ headers });
+    const getUserResult = await serverGetAuthUser({ headers });
 
-    if (getAuthUserResult.success) {
+    if (getUserResult.success) {
       const encodedUser = unwrapResult(
         superjsonCodec.encode({
-          input: getAuthUserResult.data,
+          input: getUserResult.data,
         }),
       );
       return createEncodedSuccess(encodedUser);
     }
 
-    const getAuthUserError = getAuthUserResult.error;
+    const getUserError = getUserResult.error;
 
-    if (getAuthUserError.code === "UNAUTHENTICATED_ERROR") {
+    if (getUserError.code === "UNAUTHENTICATED_ERROR") {
       setResponseStatus(
         HTTP_ERROR_RESPONSE_STATUS_ENUM.UNAUTHORIZED.CODE,
         HTTP_ERROR_RESPONSE_STATUS_ENUM.UNAUTHORIZED.TEXT,
       );
       return createJsonFailure({
-        code: getAuthUserError.code,
+        code: getUserError.code,
         message: "You are unauthenticated. Please sign in to continue.",
         meta: null,
       } satisfies FlatError<UnauthenticatedErrorCode>);
@@ -56,7 +56,7 @@ export const getAuthUser = createServerFn().handler(
       HTTP_ERROR_RESPONSE_STATUS_ENUM.INTERNAL_SERVER_ERROR.TEXT,
     );
     return createJsonFailure({
-      code: getAuthUserError.code,
+      code: getUserError.code,
       message:
         "Something went wrong. Please try again later or contact support.",
       meta: null,
