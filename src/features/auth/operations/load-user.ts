@@ -13,7 +13,7 @@ import {
 import type { UnauthenticatedErrorCode } from "@/features/auth/errors/unauthenticated";
 import type { AuthUser } from "@/features/auth/types";
 
-import { getAuthSession } from "@/features/auth/operations/get-session";
+import { getAuthUser } from "@/features/auth/operations/get-user";
 
 export const loadAuthUser = createServerFn().handler(
   async (): AsyncJsonResult<
@@ -24,28 +24,27 @@ export const loadAuthUser = createServerFn().handler(
   > => {
     const headers = getRequestHeaders();
 
-    const getAuthSessionResult = await getAuthSession({ headers });
+    const getAuthUserResult = await getAuthUser({ headers });
 
-    if (getAuthSessionResult.success) {
-      const { user } = getAuthSessionResult.data;
+    if (getAuthUserResult.success) {
       const {
         createdAt: _createdAt,
         updatedAt: _updatedAt,
         image = null,
         ...rest
-      } = user;
+      } = getAuthUserResult.data;
       return createJsonSuccess({ ...rest, image });
     }
 
-    const getAuthSessionError = getAuthSessionResult.error;
+    const getAuthUserError = getAuthUserResult.error;
 
-    if (getAuthSessionError.code === "UNAUTHENTICATED_ERROR") {
+    if (getAuthUserError.code === "UNAUTHENTICATED_ERROR") {
       setResponseStatus(
         HTTP_ERROR_RESPONSE_STATUS_ENUM.UNAUTHORIZED.CODE,
         HTTP_ERROR_RESPONSE_STATUS_ENUM.UNAUTHORIZED.TEXT,
       );
       return createJsonFailure({
-        code: getAuthSessionError.code,
+        code: getAuthUserError.code,
         message: "You are unauthenticated. Please sign in to continue.",
         meta: null,
       } satisfies FlatError<UnauthenticatedErrorCode>);
@@ -56,7 +55,7 @@ export const loadAuthUser = createServerFn().handler(
       HTTP_ERROR_RESPONSE_STATUS_ENUM.INTERNAL_SERVER_ERROR.TEXT,
     );
     return createJsonFailure({
-      code: getAuthSessionError.code,
+      code: getAuthUserError.code,
       message:
         "Something went wrong. Please try again later or contact support.",
       meta: null,

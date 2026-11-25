@@ -7,7 +7,7 @@ import { createServerOnlyFn } from "@tanstack/react-start";
 import { parseCookies } from "better-auth/cookies";
 
 import type { UnauthenticatedErrorMeta } from "@/features/auth/errors/unauthenticated";
-import type { AuthSession, AuthUser } from "@/features/auth/types";
+import type { AuthUser } from "@/features/auth/types";
 
 import {
   SESSION_DATA_COOKIE,
@@ -16,13 +16,13 @@ import {
 import { UnauthenticatedError } from "@/features/auth/errors/unauthenticated";
 import { authServer } from "@/features/auth/server";
 
-export const getAuthSession = createServerOnlyFn(
+export const getAuthUser = createServerOnlyFn(
   async ({
     headers,
   }: {
     headers: Headers;
   }): AsyncResult<
-    { session: AuthSession; user: AuthUser },
+    AuthUser,
     UnauthenticatedError | UnexpectedError<unknown, UnauthenticatedErrorMeta>
   > => {
     const cookieHeader = getHeader({ headers, name: "cookie" });
@@ -31,11 +31,11 @@ export const getAuthSession = createServerOnlyFn(
       hasSessionTokenCookie: cookieMap.has(SESSION_TOKEN_COOKIE),
       hasSessionDataCookie: cookieMap.has(SESSION_DATA_COOKIE),
     } satisfies UnauthenticatedErrorMeta;
-    const operation = "get session";
+    const operation = "get user";
 
     try {
-      const session = await authServer.api.getSession({ headers });
-      if (session === null) {
+      const getSessionResult = await authServer.api.getSession({ headers });
+      if (getSessionResult === null) {
         return createFailure(
           new UnauthenticatedError({
             message: composeErrorMessage({
@@ -46,7 +46,7 @@ export const getAuthSession = createServerOnlyFn(
           }),
         );
       }
-      return createSuccess(session);
+      return createSuccess(getSessionResult.user);
     } catch (error) {
       return createFailure(
         new UnexpectedError({
