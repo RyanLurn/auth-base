@@ -1,9 +1,12 @@
 import type { FlatError, UnexpectedErrorCode } from "@little-nebulae/error";
-import type { AsyncJsonResult } from "@little-nebulae/result";
-import type { Except } from "type-fest";
+import type {
+  AsyncEncodedResult,
+  SuperJSONResultOf,
+} from "@little-nebulae/superjson";
 
 import { HTTP_ERROR_RESPONSE_STATUS_ENUM } from "@little-nebulae/http";
-import { createJsonFailure, createJsonSuccess } from "@little-nebulae/result";
+import { createJsonFailure, unwrapResult } from "@little-nebulae/result";
+import { createEncodedSuccess } from "@little-nebulae/superjson";
 import { createServerFn } from "@tanstack/react-start";
 import {
   getRequestHeaders,
@@ -14,12 +17,11 @@ import type { UnauthenticatedErrorCode } from "@/features/auth/errors/unauthenti
 import type { AuthUser } from "@/features/auth/types";
 
 import { getAuthUser } from "@/features/auth/operations/get-user";
+import { superjsonCodec } from "@/lib/superjson";
 
 export const loadAuthUser = createServerFn().handler(
-  async (): AsyncJsonResult<
-    Except<AuthUser, "createdAt" | "updatedAt" | "image"> & {
-      image: string | null;
-    },
+  async (): AsyncEncodedResult<
+    SuperJSONResultOf<AuthUser>,
     FlatError<UnauthenticatedErrorCode> | FlatError<UnexpectedErrorCode>
   > => {
     const headers = getRequestHeaders();
@@ -27,13 +29,12 @@ export const loadAuthUser = createServerFn().handler(
     const getAuthUserResult = await getAuthUser({ headers });
 
     if (getAuthUserResult.success) {
-      const {
-        createdAt: _createdAt,
-        updatedAt: _updatedAt,
-        image = null,
-        ...rest
-      } = getAuthUserResult.data;
-      return createJsonSuccess({ ...rest, image });
+      const encodedUser = unwrapResult(
+        superjsonCodec.encode({
+          input: getAuthUserResult.data,
+        }),
+      );
+      return createEncodedSuccess(encodedUser);
     }
 
     const getAuthUserError = getAuthUserResult.error;
