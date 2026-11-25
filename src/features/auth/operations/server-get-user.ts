@@ -16,7 +16,7 @@ import {
 import { UnauthenticatedError } from "@/features/auth/errors/unauthenticated";
 import { authServer } from "@/features/auth/server";
 
-export const getAuthUser = createServerOnlyFn(
+export const serverGetAuthUser = createServerOnlyFn(
   async ({
     headers,
   }: {

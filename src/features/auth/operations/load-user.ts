@@ -16,7 +16,7 @@ import {
 import type { UnauthenticatedErrorCode } from "@/features/auth/errors/unauthenticated";
 import type { AuthUser } from "@/features/auth/types";
 
-import { getAuthUser } from "@/features/auth/operations/get-user.server";
+import { serverGetAuthUser } from "@/features/auth/operations/server-get-user";
 import { superjsonCodec } from "@/lib/superjson";
 
 export const loadAuthUser = createServerFn().handler(
@@ -26,7 +26,7 @@ export const loadAuthUser = createServerFn().handler(
   > => {
     const headers = getRequestHeaders();
 
-    const getAuthUserResult = await getAuthUser({ headers });
+    const getAuthUserResult = await serverGetAuthUser({ headers });
 
     if (getAuthUserResult.success) {
       const encodedUser = unwrapResult(
