@@ -67,7 +67,10 @@ function SignUpPage() {
             type: "success",
             title: "Signed up successfully",
           });
-          await navigate({ to: VerifyEmailRoute.to });
+          await navigate({
+            to: VerifyEmailRoute.to,
+            search: { reason: "sign-up" },
+          });
           return;
         }
 
