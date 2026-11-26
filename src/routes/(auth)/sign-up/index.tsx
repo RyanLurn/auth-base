@@ -8,9 +8,10 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { FieldGroup } from "@/components/ui/field";
 import { toast } from "@/components/ui/toast";
 import { authClient } from "@/features/auth/client";
-import { SignUpParamsSchema } from "@/features/auth/schemas";
+import { NameSchema, SignUpParamsSchema } from "@/features/auth/schemas";
 import { useAppForm } from "@/lib/form/hooks";
 import { Route as VerifyEmailRoute } from "@/routes/(auth)/verify-email";
 import { Route as DashboardRoute } from "@/routes/_authenticated/dashboard";
@@ -97,7 +98,21 @@ function SignUpPage() {
               e.preventDefault();
               void signUpForm.handleSubmit();
             }}
-          ></form>
+          >
+            <FieldGroup>
+              {/* Name field */}
+              <signUpForm.AppField
+                name="name"
+                validators={{
+                  onChange: NameSchema,
+                }}
+              >
+                {({ TextField }) => (
+                  <TextField placeholder="Your Name" label="Name" type="text" />
+                )}
+              </signUpForm.AppField>
+            </FieldGroup>
+          </form>
         </CardContent>
         <CardFooter></CardFooter>
       </Card>
