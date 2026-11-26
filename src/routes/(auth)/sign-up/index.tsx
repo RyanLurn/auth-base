@@ -47,7 +47,6 @@ function SignUpPage() {
           toast.add({
             type: "success",
             title: "Signed up successfully",
-            description: `Welcome, ${data.user.name}.`,
           });
           await navigate({ to: VerifyEmailRoute.to });
           return;
