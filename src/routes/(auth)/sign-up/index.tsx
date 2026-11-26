@@ -51,6 +51,14 @@ function SignUpPage() {
           await navigate({ to: VerifyEmailRoute.to });
           return;
         }
+
+        // Handle error cases
+        toast.add({
+          type: "error",
+          title: "Failed to sign up",
+          description: error.message,
+        });
+        return;
       } catch {
         // Handle catch-all error
         toast.add({
