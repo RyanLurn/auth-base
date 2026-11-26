@@ -45,7 +45,7 @@ function SignUpPage() {
         if (data) {
           toast.add({
             type: "success",
-            title: "Sign up succeeded",
+            title: "Signed up successfully",
             description: `Welcome, ${data.user.name}.`,
           });
           await navigate({ to: redirect ?? "/account" });
