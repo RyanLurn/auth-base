@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from "./routes/index";
 import { Route as AuthenticatedRouteRouteImport } from "./routes/_authenticated/route";
 import { Route as authEmailVerifiedIndexRouteImport } from "./routes/(auth)/email-verified/index";
 import { Route as authSignInIndexRouteImport } from "./routes/(auth)/sign-in/index";
+import { Route as authSignUpIndexRouteImport } from "./routes/(auth)/sign-up/index";
 import { Route as authVerifyEmailIndexRouteImport } from "./routes/(auth)/verify-email/index";
 import { Route as AuthenticatedDashboardIndexRouteImport } from "./routes/_authenticated/dashboard/index";
 import { Route as ApiAuthSplatRouteImport } from "./routes/api/auth/$";
@@ -34,6 +35,11 @@ const authEmailVerifiedIndexRoute = authEmailVerifiedIndexRouteImport.update({
 const authSignInIndexRoute = authSignInIndexRouteImport.update({
   id: "/(auth)/sign-in/",
   path: "/sign-in/",
+  getParentRoute: () => rootRouteImport,
+} as any);
+const authSignUpIndexRoute = authSignUpIndexRouteImport.update({
+  id: "/(auth)/sign-up/",
+  path: "/sign-up/",
   getParentRoute: () => rootRouteImport,
 } as any);
 const authVerifyEmailIndexRoute = authVerifyEmailIndexRouteImport.update({
@@ -58,6 +64,7 @@ export interface FileRoutesByFullPath {
   "/api/auth/$": typeof ApiAuthSplatRoute;
   "/email-verified/": typeof authEmailVerifiedIndexRoute;
   "/sign-in/": typeof authSignInIndexRoute;
+  "/sign-up/": typeof authSignUpIndexRoute;
   "/verify-email/": typeof authVerifyEmailIndexRoute;
   "/dashboard/": typeof AuthenticatedDashboardIndexRoute;
 }
@@ -66,6 +73,7 @@ export interface FileRoutesByTo {
   "/api/auth/$": typeof ApiAuthSplatRoute;
   "/email-verified": typeof authEmailVerifiedIndexRoute;
   "/sign-in": typeof authSignInIndexRoute;
+  "/sign-up": typeof authSignUpIndexRoute;
   "/verify-email": typeof authVerifyEmailIndexRoute;
   "/dashboard": typeof AuthenticatedDashboardIndexRoute;
 }
@@ -76,6 +84,7 @@ export interface FileRoutesById {
   "/api/auth/$": typeof ApiAuthSplatRoute;
   "/(auth)/email-verified/": typeof authEmailVerifiedIndexRoute;
   "/(auth)/sign-in/": typeof authSignInIndexRoute;
+  "/(auth)/sign-up/": typeof authSignUpIndexRoute;
   "/(auth)/verify-email/": typeof authVerifyEmailIndexRoute;
   "/_authenticated/dashboard/": typeof AuthenticatedDashboardIndexRoute;
 }
@@ -86,6 +95,7 @@ export interface FileRouteTypes {
     | "/api/auth/$"
     | "/email-verified/"
     | "/sign-in/"
+    | "/sign-up/"
     | "/verify-email/"
     | "/dashboard/";
   fileRoutesByTo: FileRoutesByTo;
@@ -94,6 +104,7 @@ export interface FileRouteTypes {
     | "/api/auth/$"
     | "/email-verified"
     | "/sign-in"
+    | "/sign-up"
     | "/verify-email"
     | "/dashboard";
   id:
@@ -103,6 +114,7 @@ export interface FileRouteTypes {
     | "/api/auth/$"
     | "/(auth)/email-verified/"
     | "/(auth)/sign-in/"
+    | "/(auth)/sign-up/"
     | "/(auth)/verify-email/"
     | "/_authenticated/dashboard/";
   fileRoutesById: FileRoutesById;
@@ -113,6 +125,7 @@ export interface RootRouteChildren {
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute;
   authEmailVerifiedIndexRoute: typeof authEmailVerifiedIndexRoute;
   authSignInIndexRoute: typeof authSignInIndexRoute;
+  authSignUpIndexRoute: typeof authSignUpIndexRoute;
   authVerifyEmailIndexRoute: typeof authVerifyEmailIndexRoute;
 }
 
@@ -144,6 +157,13 @@ declare module "@tanstack/react-router" {
       path: "/sign-in";
       fullPath: "/sign-in/";
       preLoaderRoute: typeof authSignInIndexRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
+    "/(auth)/sign-up/": {
+      id: "/(auth)/sign-up/";
+      path: "/sign-up";
+      fullPath: "/sign-up/";
+      preLoaderRoute: typeof authSignUpIndexRouteImport;
       parentRoute: typeof rootRouteImport;
     };
     "/(auth)/verify-email/": {
@@ -187,6 +207,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiAuthSplatRoute: ApiAuthSplatRoute,
   authEmailVerifiedIndexRoute: authEmailVerifiedIndexRoute,
   authSignInIndexRoute: authSignInIndexRoute,
+  authSignUpIndexRoute: authSignUpIndexRoute,
   authVerifyEmailIndexRoute: authVerifyEmailIndexRoute,
 };
 export const routeTree = rootRouteImport
