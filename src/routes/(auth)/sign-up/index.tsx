@@ -1,3 +1,4 @@
+import { useSelector } from "@tanstack/react-form";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 
 import {
@@ -82,6 +83,11 @@ function SignUpPage() {
     },
   });
 
+  const isSubmitting = useSelector(
+    signUpForm.store,
+    (state) => state.isSubmitting,
+  );
+
   return (
     <div className="flex size-full flex-col items-center justify-center">
       <Card className="w-full sm:max-w-sm">
@@ -108,7 +114,12 @@ function SignUpPage() {
                 }}
               >
                 {({ TextField }) => (
-                  <TextField placeholder="Your Name" label="Name" type="text" />
+                  <TextField
+                    placeholder="Your Name"
+                    disabled={isSubmitting}
+                    label="Name"
+                    type="text"
+                  />
                 )}
               </signUpForm.AppField>
             </FieldGroup>
