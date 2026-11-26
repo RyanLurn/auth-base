@@ -1,3 +1,4 @@
+import { EmailSchema } from "@little-nebulae/zod-schemas";
 import { useSelector } from "@tanstack/react-form";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 
@@ -119,6 +120,22 @@ function SignUpPage() {
                     disabled={isSubmitting}
                     label="Name"
                     type="text"
+                  />
+                )}
+              </signUpForm.AppField>
+              {/* Email field */}
+              <signUpForm.AppField
+                name="email"
+                validators={{
+                  onChange: EmailSchema,
+                }}
+              >
+                {({ TextField }) => (
+                  <TextField
+                    placeholder="youremail@example.com"
+                    disabled={isSubmitting}
+                    label="Email"
+                    type="email"
                   />
                 )}
               </signUpForm.AppField>
