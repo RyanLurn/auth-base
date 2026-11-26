@@ -26,6 +26,7 @@ function SignUpPage() {
   const navigate = useNavigate({ from: "/sign-up/" });
 
   const signUpForm = useAppForm({
+    formId: "sign-up-form",
     defaultValues: {
       name: "",
       email: "",
@@ -89,7 +90,15 @@ function SignUpPage() {
             Enter your information below to create an account.
           </CardDescription>
         </CardHeader>
-        <CardContent></CardContent>
+        <CardContent>
+          <form
+            id={signUpForm.formId}
+            onSubmit={(e) => {
+              e.preventDefault();
+              void signUpForm.handleSubmit();
+            }}
+          ></form>
+        </CardContent>
         <CardFooter></CardFooter>
       </Card>
     </div>
