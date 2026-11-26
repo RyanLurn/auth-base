@@ -1,5 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 
+import { SignUpParamsSchema } from "@/features/auth/schemas";
+import { useAppForm } from "@/lib/form/hooks";
 import { RedirectSearchParamSchema } from "@/utils/schemas/redirect";
 
 export const Route = createFileRoute("/(auth)/sign-up/")({
@@ -8,5 +10,17 @@ export const Route = createFileRoute("/(auth)/sign-up/")({
 });
 
 function SignUpPage() {
+  const signUpForm = useAppForm({
+    defaultValues: {
+      name: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+    },
+    validators: {
+      onSubmit: SignUpParamsSchema,
+    },
+  });
+
   return <div>Hello "/(auth)/sign-up/"!</div>;
 }
