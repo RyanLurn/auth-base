@@ -83,10 +83,10 @@ function VerifyEmailPage() {
   const isSending = status === "sending";
 
   return (
-    <main className="flex min-h-svh items-center justify-center p-4">
+    <main className="flex size-full items-center justify-center p-4">
       <Card className="w-full max-w-md text-center">
-        <CardHeader className="items-center">
-          <div className="mb-2 flex size-12 items-center justify-center rounded-full bg-muted text-muted-foreground">
+        <CardHeader>
+          <div className="mb-2 flex size-12 items-center justify-center justify-self-center rounded-full bg-muted text-muted-foreground">
             <Icon className="size-6" aria-hidden="true" />
           </div>
           <CardTitle className="text-xl">{title}</CardTitle>
