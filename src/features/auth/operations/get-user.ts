@@ -1,4 +1,4 @@
-import type { FlatError, UnexpectedErrorCode } from "@little-nebulae/error";
+import type { FlatError } from "@little-nebulae/error";
 import type {
   AsyncEncodedResult,
   SuperJSONResultOf,
@@ -11,14 +11,16 @@ import { getRequestHeaders } from "@tanstack/react-start/server";
 
 import type { UnauthenticatedErrorCode } from "@/features/auth/errors/unauthenticated";
 import type { AuthUser } from "@/features/auth/types";
+import type { DefaultFlatError } from "@/lib/result";
 
 import { serverGetAuthUser } from "@/features/auth/operations/server-get-user";
+import { defaultJsonFailure } from "@/lib/result";
 import { superjsonCodec } from "@/lib/superjson";
 
 export const getAuthUser = createServerFn().handler(
   async (): AsyncEncodedResult<
     SuperJSONResultOf<AuthUser>,
-    FlatError<UnauthenticatedErrorCode> | FlatError<UnexpectedErrorCode>
+    FlatError<UnauthenticatedErrorCode> | DefaultFlatError
   > => {
     const headers = getRequestHeaders();
     const getUserResult = await serverGetAuthUser({ headers });
@@ -39,11 +41,6 @@ export const getAuthUser = createServerFn().handler(
         meta: null,
       } satisfies FlatError<UnauthenticatedErrorCode>);
     }
-    return createJsonFailure({
-      code: getUserError.code,
-      message:
-        "Something went wrong. Please try again later or contact support.",
-      meta: null,
-    } satisfies FlatError<UnexpectedErrorCode>);
+    return defaultJsonFailure;
   },
 );
