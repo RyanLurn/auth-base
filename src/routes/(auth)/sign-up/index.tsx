@@ -5,6 +5,7 @@ import { authClient } from "@/features/auth/client";
 import { SignUpParamsSchema } from "@/features/auth/schemas";
 import { useAppForm } from "@/lib/form/hooks";
 import { Route as VerifyEmailRoute } from "@/routes/(auth)/verify-email";
+import { Route as DashboardRoute } from "@/routes/_authenticated/dashboard";
 import { RedirectSearchParamSchema } from "@/utils/schemas/redirect";
 
 export const Route = createFileRoute("/(auth)/sign-up/")({
@@ -38,7 +39,7 @@ function SignUpPage() {
           name,
           email,
           password,
-          callbackURL: VerifyEmailRoute.to,
+          callbackURL: redirect ?? DashboardRoute.to,
         });
 
         // Handle success case
@@ -48,7 +49,7 @@ function SignUpPage() {
             title: "Signed up successfully",
             description: `Welcome, ${data.user.name}.`,
           });
-          await navigate({ to: redirect ?? "/account" });
+          await navigate({ to: VerifyEmailRoute.to });
           return;
         }
       } catch {
