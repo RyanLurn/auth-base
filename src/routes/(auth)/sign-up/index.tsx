@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 
 import { toast } from "@/components/ui/toast";
 import { authClient } from "@/features/auth/client";
@@ -13,6 +13,9 @@ export const Route = createFileRoute("/(auth)/sign-up/")({
 });
 
 function SignUpPage() {
+  const { redirect } = Route.useSearch();
+  const navigate = useNavigate({ from: "/sign-up/" });
+
   const signUpForm = useAppForm({
     defaultValues: {
       name: "",
@@ -37,6 +40,17 @@ function SignUpPage() {
           password,
           callbackURL: VerifyEmailRoute.to,
         });
+
+        // Handle success case
+        if (data) {
+          toast.add({
+            type: "success",
+            title: "Sign up succeeded",
+            description: `Welcome, ${data.user.name}.`,
+          });
+          await navigate({ to: redirect ?? "/account" });
+          return;
+        }
       } catch {
         // Handle catch-all error
         toast.add({
@@ -45,6 +59,7 @@ function SignUpPage() {
           description:
             "Something went wrong. Please try again later or contact support.",
         });
+        return;
       }
     },
   });
