@@ -1,6 +1,7 @@
 import { EmailSchema } from "@little-nebulae/zod-schemas";
 import { useSelector } from "@tanstack/react-form";
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { cn } from "cn";
 
 import {
   Card,
@@ -204,6 +205,24 @@ function SignUpPage() {
               className="w-full"
             />
           </signUpForm.AppForm>
+          {/* Sign in link */}
+          <div className="w-full text-center text-muted-foreground">
+            <span>Already have an account?</span>{" "}
+            <Link
+              className={cn(
+                isSubmitting
+                  ? ""
+                  : "underline underline-offset-2 hover:text-primary",
+              )}
+              search={{
+                redirect,
+              }}
+              disabled={isSubmitting}
+              to="/sign-in"
+            >
+              Sign in
+            </Link>
+          </div>
         </CardFooter>
       </Card>
     </div>
