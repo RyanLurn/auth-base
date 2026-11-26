@@ -4,7 +4,7 @@ import type {
   SuperJSONResultOf,
 } from "@little-nebulae/superjson";
 
-import { createJsonFailure, unwrapResult } from "@little-nebulae/result";
+import { createJsonFailure } from "@little-nebulae/result";
 import { createEncodedSuccess } from "@little-nebulae/superjson";
 import { createServerFn } from "@tanstack/react-start";
 import { getRequestHeaders } from "@tanstack/react-start/server";
@@ -25,12 +25,13 @@ export const getAuthUser = createServerFn().handler(
     const headers = getRequestHeaders();
     const getUserResult = await serverGetAuthUser({ headers });
     if (getUserResult.success) {
-      const encodedUser = unwrapResult(
-        superjsonCodec.encode({
-          input: getUserResult.data,
-        }),
-      );
-      return createEncodedSuccess(encodedUser);
+      const encodeResult = superjsonCodec.encode({
+        input: getUserResult.data,
+      });
+      if (encodeResult.success) {
+        return createEncodedSuccess(encodeResult.data);
+      }
+      return defaultJsonFailure;
     }
 
     const getUserError = getUserResult.error;
