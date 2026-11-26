@@ -69,7 +69,7 @@ function SignUpPage() {
           });
           await navigate({
             to: VerifyEmailRoute.to,
-            search: { reason: "sign-up" },
+            search: { reason: "sign-up", redirect },
           });
           return;
         }

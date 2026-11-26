@@ -14,11 +14,14 @@ import {
 } from "@/components/ui/card";
 import { Spinner } from "@/components/ui/spinner";
 import { authClient } from "@/features/auth/client";
+import { Route as DashboardRoute } from "@/routes/_authenticated/dashboard";
+import { RedirectSearchParamSchema } from "@/utils/schemas/redirect";
 
 const RESEND_COOLDOWN_SECONDS = 30;
 
 export const Route = createFileRoute("/(auth)/verify-email/")({
   validateSearch: z.object({
+    ...RedirectSearchParamSchema.shape,
     email: z.email().optional().catch(undefined),
     reason: z.enum(["sign-up", "sign-in"]).catch("sign-up"),
   }),
@@ -47,7 +50,7 @@ const copy = {
 } as const;
 
 function VerifyEmailPage() {
-  const { email, reason } = Route.useSearch();
+  const { email, reason, redirect } = Route.useSearch();
   const { icon: Icon, title, description } = copy[reason];
 
   // After sign-up an email was just sent, so start the cooldown immediately.
@@ -68,7 +71,7 @@ function VerifyEmailPage() {
     setStatus("sending");
     const { error } = await authClient.sendVerificationEmail({
       email,
-      callbackURL: "/dashboard",
+      callbackURL: redirect ?? DashboardRoute.to,
     });
 
     if (error) {
@@ -133,6 +136,7 @@ function VerifyEmailPage() {
         <CardFooter className="justify-center">
           <Link
             to={reason === "sign-in" ? "/sign-in" : "/sign-up"}
+            search={{ redirect }}
             className={buttonVariants({ variant: "link", size: "sm" })}
           >
             Back to {reason} page
