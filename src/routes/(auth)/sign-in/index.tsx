@@ -2,6 +2,15 @@ import { HTTP_CLIENT_ERROR_RESPONSE_STATUS_ENUM } from "@little-nebulae/http";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { BASE_ERROR_CODES } from "better-auth";
 
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { FieldGroup } from "@/components/ui/field";
 import { toast } from "@/components/ui/toast";
 import { authClient } from "@/features/auth/client";
 import { SignInParamsSchema } from "@/features/auth/schemas";
@@ -20,6 +29,7 @@ function SignInPage() {
   const navigate = useNavigate({ from: "/sign-up/" });
 
   const signInForm = useAppForm({
+    formId: "sign-in-form",
     defaultValues: {
       email: "",
       password: "",
@@ -112,5 +122,28 @@ function SignInPage() {
     },
   });
 
-  return <div>Hello "/(auth)/sign-in/"!</div>;
+  return (
+    <div className="flex size-full flex-col items-center justify-center">
+      <Card className="w-full sm:max-w-sm">
+        <CardHeader>
+          <CardTitle className="text-xl">Sign in</CardTitle>
+          <CardDescription>
+            Enter your credentials below to sign in.
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <form
+            id={signInForm.formId}
+            onSubmit={(e) => {
+              e.preventDefault();
+              void signInForm.handleSubmit();
+            }}
+          >
+            <FieldGroup></FieldGroup>
+          </form>
+        </CardContent>
+        <CardFooter className="flex-col gap-y-2"></CardFooter>
+      </Card>
+    </div>
+  );
 }
