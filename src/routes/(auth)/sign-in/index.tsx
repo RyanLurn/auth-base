@@ -1,4 +1,5 @@
 import { HTTP_CLIENT_ERROR_RESPONSE_STATUS_ENUM } from "@little-nebulae/http";
+import { useSelector } from "@tanstack/react-form";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { BASE_ERROR_CODES } from "better-auth";
 
@@ -121,6 +122,11 @@ function SignInPage() {
       }
     },
   });
+
+  const isSubmitting = useSelector(
+    signInForm.store,
+    (state) => state.isSubmitting,
+  );
 
   return (
     <div className="flex size-full flex-col items-center justify-center">
