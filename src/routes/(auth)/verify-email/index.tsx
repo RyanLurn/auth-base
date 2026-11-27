@@ -13,6 +13,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Spinner } from "@/components/ui/spinner";
+import { toast } from "@/components/ui/toast";
 import { authClient } from "@/features/auth/client";
 import { Route as DashboardRoute } from "@/routes/_authenticated/dashboard";
 import { RedirectSearchParamSchema } from "@/utils/schemas/redirect";
@@ -27,8 +28,6 @@ export const Route = createFileRoute("/(auth)/verify-email/")({
   }),
   component: VerifyEmailPage,
 });
-
-type ResendStatus = "idle" | "sending" | "sent" | "error";
 
 const copy = {
   "sign-up": {
@@ -57,7 +56,7 @@ function VerifyEmailPage() {
   const [cooldown, setCooldown] = useState(
     reason === "sign-up" ? RESEND_COOLDOWN_SECONDS : 0,
   );
-  const [status, setStatus] = useState<ResendStatus>("idle");
+  const [isSending, setIsSending] = useState(false);
 
   useEffect(() => {
     if (cooldown <= 0) return;
@@ -68,22 +67,40 @@ function VerifyEmailPage() {
   async function resend() {
     if (!email) return;
 
-    setStatus("sending");
-    const { error } = await authClient.sendVerificationEmail({
-      email,
-      callbackURL: redirect ?? DashboardRoute.to,
-    });
+    setIsSending(true);
+    try {
+      const { error } = await authClient.sendVerificationEmail({
+        email,
+        callbackURL: redirect ?? DashboardRoute.to,
+      });
 
-    if (error) {
-      setStatus("error");
-      return;
+      // Handle success case
+      if (error === null) {
+        toast.add({
+          type: "success",
+          title: "Resend successfully",
+        });
+        setCooldown(RESEND_COOLDOWN_SECONDS);
+        return;
+      }
+
+      // Handle error case
+      toast.add({
+        type: "error",
+        title: "Failed to resend",
+        description: error.message,
+      });
+    } catch {
+      toast.add({
+        type: "error",
+        title: "Failed to resend",
+        description:
+          "Something went wrong. Please try again later or contact support.",
+      });
+    } finally {
+      setIsSending(false);
     }
-
-    setStatus("sent");
-    setCooldown(RESEND_COOLDOWN_SECONDS);
   }
-
-  const isSending = status === "sending";
 
   return (
     <main className="flex size-full items-center justify-center p-4">
@@ -111,22 +128,6 @@ function VerifyEmailPage() {
                 ? `Resend email in ${cooldown}s`
                 : "Resend verification email"}
             </Button>
-
-            <p
-              role="status"
-              aria-live="polite"
-              className={
-                status === "error"
-                  ? "text-sm text-destructive"
-                  : "text-sm text-muted-foreground"
-              }
-            >
-              {status === "sent" &&
-                "Verification email sent. Check your inbox."}
-              {status === "error" &&
-                "We couldn't send the email. Try again in a moment."}
-            </p>
-
             <p className="text-sm text-muted-foreground">
               Can't find it? Check your spam folder.
             </p>
