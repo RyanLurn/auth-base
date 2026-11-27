@@ -1,10 +1,14 @@
 import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
+import { z } from "zod";
 
 import { getAuthUser } from "@/features/auth/operations/get-user";
 import { defaultFlatError } from "@/lib/result";
 import { superjsonCodec } from "@/lib/superjson";
 
 export const Route = createFileRoute("/_authenticated")({
+  validateSearch: z.object({
+    error: z.string().optional().catch(undefined),
+  }),
   beforeLoad: async ({ location }) => {
     const getUserResult = await getAuthUser();
     if (getUserResult.success) {
