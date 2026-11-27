@@ -1,7 +1,13 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { HTTP_CLIENT_ERROR_RESPONSE_STATUS_ENUM } from "@little-nebulae/http";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { BASE_ERROR_CODES } from "better-auth";
 
+import { toast } from "@/components/ui/toast";
+import { authClient } from "@/features/auth/client";
 import { SignInParamsSchema } from "@/features/auth/schemas";
 import { useAppForm } from "@/lib/form/hooks";
+import { Route as VerifyEmailRoute } from "@/routes/(auth)/verify-email";
+import { Route as DashboardRoute } from "@/routes/_authenticated/dashboard";
 import { RedirectSearchParamSchema } from "@/utils/schemas/redirect";
 
 export const Route = createFileRoute("/(auth)/sign-in/")({
@@ -10,6 +16,9 @@ export const Route = createFileRoute("/(auth)/sign-in/")({
 });
 
 function SignInPage() {
+  const { redirect } = Route.useSearch();
+  const navigate = useNavigate({ from: "/sign-up/" });
+
   const signInForm = useAppForm({
     defaultValues: {
       email: "",
@@ -18,6 +27,88 @@ function SignInPage() {
     },
     validators: {
       onSubmit: SignInParamsSchema,
+    },
+    onSubmit: async ({ value, formApi }) => {
+      try {
+        // The SignInParamsSchema transforms email.
+        // However, TanStack Form doesn't use the output of validators for the value.
+        // So, we need to parse it again here to get the transformed email.
+        const { email, password, rememberMe } = SignInParamsSchema.parse(value);
+
+        // Sign in operation
+        const { data, error } = await authClient.signIn.email({
+          email,
+          password,
+          rememberMe,
+          callbackURL: redirect ?? DashboardRoute.to,
+        });
+
+        // Handle success case
+        if (data) {
+          toast.add({
+            type: "success",
+            title: "Signed in successfully",
+            description: `Welcome back, ${data.user.name}.`,
+          });
+          return;
+        }
+
+        // Handle error cases
+        // Invalid credentials case
+        if (error.code === BASE_ERROR_CODES.INVALID_EMAIL_OR_PASSWORD.code) {
+          formApi.setFieldMeta("email", (prev) => ({
+            ...prev,
+            errorMap: {
+              onServer: [
+                {
+                  message:
+                    error.message ??
+                    BASE_ERROR_CODES.INVALID_EMAIL_OR_PASSWORD.message,
+                },
+              ],
+            },
+          }));
+          formApi.setFieldMeta("password", (prev) => ({
+            ...prev,
+            errorMap: {
+              onServer: [
+                {
+                  message:
+                    error.message ??
+                    BASE_ERROR_CODES.INVALID_EMAIL_OR_PASSWORD.message,
+                },
+              ],
+            },
+          }));
+          return;
+        }
+        // Email isn't verified case
+        if (
+          error.status === HTTP_CLIENT_ERROR_RESPONSE_STATUS_ENUM.FORBIDDEN.CODE
+        ) {
+          await navigate({
+            to: VerifyEmailRoute.to,
+            search: { reason: "sign-in", email, redirect },
+          });
+          return;
+        }
+        // Other cases
+        toast.add({
+          type: "error",
+          title: "Failed to sign in",
+          description: error.message,
+        });
+        return;
+      } catch {
+        // Handle catch-all error
+        toast.add({
+          type: "error",
+          title: "Failed to sign in",
+          description:
+            "Something went wrong. Please try again later or contact support.",
+        });
+        return;
+      }
     },
   });
 
