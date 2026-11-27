@@ -1,4 +1,5 @@
 import { HTTP_CLIENT_ERROR_RESPONSE_STATUS_ENUM } from "@little-nebulae/http";
+import { EmailSchema } from "@little-nebulae/zod-schemas";
 import { useSelector } from "@tanstack/react-form";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { BASE_ERROR_CODES } from "better-auth";
@@ -145,7 +146,24 @@ function SignInPage() {
               void signInForm.handleSubmit();
             }}
           >
-            <FieldGroup></FieldGroup>
+            <FieldGroup>
+              {/* Email field */}
+              <signInForm.AppField
+                name="email"
+                validators={{
+                  onChange: EmailSchema,
+                }}
+              >
+                {({ TextField }) => (
+                  <TextField
+                    placeholder="youremail@example.com"
+                    disabled={isSubmitting}
+                    label="Email"
+                    type="email"
+                  />
+                )}
+              </signInForm.AppField>
+            </FieldGroup>
           </form>
         </CardContent>
         <CardFooter className="flex-col gap-y-2"></CardFooter>
