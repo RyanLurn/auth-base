@@ -16,7 +16,11 @@ import { FieldGroup } from "@/components/ui/field";
 import { toast } from "@/components/ui/toast";
 import { authClient } from "@/features/auth/client";
 import { MIN_PASSWORD_LENGTH } from "@/features/auth/constants";
-import { PasswordSchema, SignInParamsSchema } from "@/features/auth/schemas";
+import {
+  PasswordSchema,
+  RememberMeSchema,
+  SignInParamsSchema,
+} from "@/features/auth/schemas";
 import { useAppForm } from "@/lib/form/hooks";
 import { Route as VerifyEmailRoute } from "@/routes/(auth)/verify-email";
 import { Route as DashboardRoute } from "@/routes/_authenticated/dashboard";
@@ -177,6 +181,21 @@ function SignInPage() {
                     disabled={isSubmitting}
                     label="Password"
                     type="password"
+                  />
+                )}
+              </signInForm.AppField>
+              {/* Remember me checkbox */}
+              <signInForm.AppField
+                name="rememberMe"
+                validators={{
+                  onChange: RememberMeSchema,
+                }}
+              >
+                {({ CheckField }) => (
+                  <CheckField
+                    disabled={isSubmitting}
+                    className="rounded-sm"
+                    label="Remember me"
                   />
                 )}
               </signInForm.AppField>
