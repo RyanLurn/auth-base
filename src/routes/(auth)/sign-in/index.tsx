@@ -157,6 +157,11 @@ function SignInPage() {
               <signInForm.AppField
                 name="email"
                 validators={{
+                  // In the case of an INVALID_EMAIL_OR_PASSWORD error,
+                  // both email and password fields will be locked.
+                  // This listener makes sure that when password changes,
+                  // email will be re-evaluated to remove the lock.
+                  onChangeListenTo: ["password"],
                   onChange: EmailSchema,
                 }}
               >
@@ -173,6 +178,11 @@ function SignInPage() {
               <signInForm.AppField
                 name="password"
                 validators={{
+                  // In the case of an INVALID_EMAIL_OR_PASSWORD error,
+                  // both email and password fields will be locked.
+                  // This listener makes sure that when email changes,
+                  // password will be re-evaluated to remove the lock.
+                  onChangeListenTo: ["email"],
                   onChange: PasswordSchema,
                 }}
               >
