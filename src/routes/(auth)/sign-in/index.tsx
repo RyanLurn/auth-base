@@ -1,8 +1,9 @@
 import { HTTP_CLIENT_ERROR_RESPONSE_STATUS_ENUM } from "@little-nebulae/http";
 import { EmailSchema } from "@little-nebulae/zod-schemas";
 import { useSelector } from "@tanstack/react-form";
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { BASE_ERROR_CODES } from "better-auth";
+import { cn } from "cn";
 
 import {
   Card,
@@ -211,6 +212,24 @@ function SignInPage() {
               className="w-full"
             />
           </signInForm.AppForm>
+          {/* Sign up link */}
+          <div className="w-full text-center text-muted-foreground">
+            <span>Don&apos;t have an account?</span>{" "}
+            <Link
+              className={cn(
+                isSubmitting
+                  ? ""
+                  : "underline underline-offset-2 hover:text-primary",
+              )}
+              search={{
+                redirect,
+              }}
+              disabled={isSubmitting}
+              to="/sign-up"
+            >
+              Sign up
+            </Link>
+          </div>
         </CardFooter>
       </Card>
     </div>
