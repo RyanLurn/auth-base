@@ -202,7 +202,16 @@ function SignInPage() {
             </FieldGroup>
           </form>
         </CardContent>
-        <CardFooter className="flex-col gap-y-2"></CardFooter>
+        <CardFooter className="flex-col gap-y-2">
+          {/* Submit button */}
+          <signInForm.AppForm>
+            <signInForm.SubmitButton
+              submittingText="Signing in..."
+              submitText="Sign in"
+              className="w-full"
+            />
+          </signInForm.AppForm>
+        </CardFooter>
       </Card>
     </div>
   );
