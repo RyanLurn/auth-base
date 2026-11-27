@@ -102,13 +102,16 @@ function SignUpPage() {
   return (
     <div className="flex size-full flex-col items-center justify-center">
       <Card className="w-full sm:max-w-sm">
+        {/* Form card's header */}
         <CardHeader>
           <CardTitle className="text-xl">Sign up</CardTitle>
           <CardDescription>
             Enter your information below to create an account.
           </CardDescription>
         </CardHeader>
+        {/* Form card's content */}
         <CardContent>
+          {/* Form element */}
           <form
             id={signUpForm.formId}
             onSubmit={(e) => {
@@ -199,6 +202,7 @@ function SignUpPage() {
             </FieldGroup>
           </form>
         </CardContent>
+        {/* Form card's footer */}
         <CardFooter className="flex-col gap-y-2">
           {/* Submit button */}
           <signUpForm.AppForm>

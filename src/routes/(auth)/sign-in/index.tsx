@@ -138,13 +138,16 @@ function SignInPage() {
   return (
     <div className="flex size-full flex-col items-center justify-center">
       <Card className="w-full sm:max-w-sm">
+        {/* Form card's header */}
         <CardHeader>
           <CardTitle className="text-xl">Sign in</CardTitle>
           <CardDescription>
             Enter your credentials below to sign in.
           </CardDescription>
         </CardHeader>
+        {/* Form card's content */}
         <CardContent>
+          {/* Form element */}
           <form
             id={signInForm.formId}
             onSubmit={(e) => {
@@ -213,6 +216,7 @@ function SignInPage() {
             </FieldGroup>
           </form>
         </CardContent>
+        {/* Form card's footer */}
         <CardFooter className="flex-col gap-y-2">
           {/* Submit button */}
           <signInForm.AppForm>
