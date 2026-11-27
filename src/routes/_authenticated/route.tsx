@@ -5,7 +5,7 @@ import { defaultFlatError } from "@/lib/result";
 import { superjsonCodec } from "@/lib/superjson";
 
 export const Route = createFileRoute("/_authenticated")({
-  beforeLoad: async () => {
+  beforeLoad: async ({ location }) => {
     const getUserResult = await getAuthUser();
     if (getUserResult.success) {
       const decodeResult = superjsonCodec.decode({
@@ -19,7 +19,10 @@ export const Route = createFileRoute("/_authenticated")({
 
     const getUserError = getUserResult.error;
     if (getUserError.code === "UNAUTHENTICATED_ERROR") {
-      throw redirect({ to: "/sign-in" });
+      throw redirect({
+        to: "/sign-in",
+        search: { redirect: location.pathname },
+      });
     }
     throw getUserError;
   },
