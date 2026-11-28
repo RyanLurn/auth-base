@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from "./routes/__root";
 import { Route as IndexRouteImport } from "./routes/index";
 import { Route as AuthenticatedRouteRouteImport } from "./routes/_authenticated/route";
+import { Route as authResetPasswordIndexRouteImport } from "./routes/(auth)/reset-password/index";
 import { Route as authSignInIndexRouteImport } from "./routes/(auth)/sign-in/index";
 import { Route as authSignUpIndexRouteImport } from "./routes/(auth)/sign-up/index";
 import { Route as authVerifyEmailIndexRouteImport } from "./routes/(auth)/verify-email/index";
@@ -25,6 +26,11 @@ const IndexRoute = IndexRouteImport.update({
 } as any);
 const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
   id: "/_authenticated",
+  getParentRoute: () => rootRouteImport,
+} as any);
+const authResetPasswordIndexRoute = authResetPasswordIndexRouteImport.update({
+  id: "/(auth)/reset-password/",
+  path: "/reset-password/",
   getParentRoute: () => rootRouteImport,
 } as any);
 const authSignInIndexRoute = authSignInIndexRouteImport.update({
@@ -63,6 +69,7 @@ const authVerifyEmailCallbackIndexRoute =
 export interface FileRoutesByFullPath {
   "/": typeof IndexRoute;
   "/api/auth/$": typeof ApiAuthSplatRoute;
+  "/reset-password/": typeof authResetPasswordIndexRoute;
   "/sign-in/": typeof authSignInIndexRoute;
   "/sign-up/": typeof authSignUpIndexRoute;
   "/verify-email/": typeof authVerifyEmailIndexRoute;
@@ -72,6 +79,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   "/": typeof IndexRoute;
   "/api/auth/$": typeof ApiAuthSplatRoute;
+  "/reset-password": typeof authResetPasswordIndexRoute;
   "/sign-in": typeof authSignInIndexRoute;
   "/sign-up": typeof authSignUpIndexRoute;
   "/verify-email": typeof authVerifyEmailIndexRoute;
@@ -83,6 +91,7 @@ export interface FileRoutesById {
   "/": typeof IndexRoute;
   "/_authenticated": typeof AuthenticatedRouteRouteWithChildren;
   "/api/auth/$": typeof ApiAuthSplatRoute;
+  "/(auth)/reset-password/": typeof authResetPasswordIndexRoute;
   "/(auth)/sign-in/": typeof authSignInIndexRoute;
   "/(auth)/sign-up/": typeof authSignUpIndexRoute;
   "/(auth)/verify-email/": typeof authVerifyEmailIndexRoute;
@@ -94,6 +103,7 @@ export interface FileRouteTypes {
   fullPaths:
     | "/"
     | "/api/auth/$"
+    | "/reset-password/"
     | "/sign-in/"
     | "/sign-up/"
     | "/verify-email/"
@@ -103,6 +113,7 @@ export interface FileRouteTypes {
   to:
     | "/"
     | "/api/auth/$"
+    | "/reset-password"
     | "/sign-in"
     | "/sign-up"
     | "/verify-email"
@@ -113,6 +124,7 @@ export interface FileRouteTypes {
     | "/"
     | "/_authenticated"
     | "/api/auth/$"
+    | "/(auth)/reset-password/"
     | "/(auth)/sign-in/"
     | "/(auth)/sign-up/"
     | "/(auth)/verify-email/"
@@ -124,6 +136,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute;
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren;
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute;
+  authResetPasswordIndexRoute: typeof authResetPasswordIndexRoute;
   authSignInIndexRoute: typeof authSignInIndexRoute;
   authSignUpIndexRoute: typeof authSignUpIndexRoute;
   authVerifyEmailIndexRoute: typeof authVerifyEmailIndexRoute;
@@ -144,6 +157,13 @@ declare module "@tanstack/react-router" {
       path: "";
       fullPath: "/";
       preLoaderRoute: typeof AuthenticatedRouteRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
+    "/(auth)/reset-password/": {
+      id: "/(auth)/reset-password/";
+      path: "/reset-password";
+      fullPath: "/reset-password/";
+      preLoaderRoute: typeof authResetPasswordIndexRouteImport;
       parentRoute: typeof rootRouteImport;
     };
     "/(auth)/sign-in/": {
@@ -206,6 +226,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
+  authResetPasswordIndexRoute: authResetPasswordIndexRoute,
   authSignInIndexRoute: authSignInIndexRoute,
   authSignUpIndexRoute: authSignUpIndexRoute,
   authVerifyEmailIndexRoute: authVerifyEmailIndexRoute,
