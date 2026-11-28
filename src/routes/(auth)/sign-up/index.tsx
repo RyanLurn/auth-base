@@ -80,7 +80,6 @@ function SignUpPage() {
           title: "Failed to sign up",
           description: error.message,
         });
-        return;
       } catch {
         // Handle catch-all error
         toast.add({
@@ -89,7 +88,6 @@ function SignUpPage() {
           description:
             "Something went wrong. Please try again later or contact support.",
         });
-        return;
       }
     },
   });

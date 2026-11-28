@@ -116,7 +116,6 @@ function SignInPage() {
           title: "Failed to sign in",
           description: error.message,
         });
-        return;
       } catch {
         // Handle catch-all error
         toast.add({
@@ -125,7 +124,6 @@ function SignInPage() {
           description:
             "Something went wrong. Please try again later or contact support.",
         });
-        return;
       }
     },
   });
