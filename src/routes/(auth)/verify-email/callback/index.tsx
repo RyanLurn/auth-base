@@ -1,6 +1,6 @@
 import type { LucideIcon } from "lucide-react";
 
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, redirect } from "@tanstack/react-router";
 import { MailX, TriangleAlert, UserX } from "lucide-react";
 import { z } from "zod";
 
@@ -12,6 +12,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Route as DashboardRoute } from "@/routes/_authenticated/dashboard";
 import { RedirectSearchParamSchema } from "@/utils/schemas/redirect";
 
 export const Route = createFileRoute("/(auth)/verify-email/callback/")({
@@ -20,6 +21,11 @@ export const Route = createFileRoute("/(auth)/verify-email/callback/")({
     email: z.email().optional().catch(undefined),
     error: z.string().optional().catch(undefined),
   }),
+  beforeLoad: ({ search }) => {
+    if (!search.error) {
+      throw redirect({ to: search.redirect ?? DashboardRoute.to });
+    }
+  },
   component: VerifyEmailCallbackPage,
 });
 
