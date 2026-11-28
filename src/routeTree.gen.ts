@@ -17,6 +17,7 @@ import { Route as authSignUpIndexRouteImport } from "./routes/(auth)/sign-up/ind
 import { Route as authVerifyEmailIndexRouteImport } from "./routes/(auth)/verify-email/index";
 import { Route as AuthenticatedDashboardIndexRouteImport } from "./routes/_authenticated/dashboard/index";
 import { Route as ApiAuthSplatRouteImport } from "./routes/api/auth/$";
+import { Route as authResetPasswordRequestIndexRouteImport } from "./routes/(auth)/reset-password/request/index";
 import { Route as authVerifyEmailCallbackIndexRouteImport } from "./routes/(auth)/verify-email/callback/index";
 
 const IndexRoute = IndexRouteImport.update({
@@ -59,6 +60,12 @@ const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
   path: "/api/auth/$",
   getParentRoute: () => rootRouteImport,
 } as any);
+const authResetPasswordRequestIndexRoute =
+  authResetPasswordRequestIndexRouteImport.update({
+    id: "/(auth)/reset-password/request/",
+    path: "/reset-password/request/",
+    getParentRoute: () => rootRouteImport,
+  } as any);
 const authVerifyEmailCallbackIndexRoute =
   authVerifyEmailCallbackIndexRouteImport.update({
     id: "/(auth)/verify-email/callback/",
@@ -74,6 +81,7 @@ export interface FileRoutesByFullPath {
   "/sign-up/": typeof authSignUpIndexRoute;
   "/verify-email/": typeof authVerifyEmailIndexRoute;
   "/dashboard/": typeof AuthenticatedDashboardIndexRoute;
+  "/reset-password/request/": typeof authResetPasswordRequestIndexRoute;
   "/verify-email/callback/": typeof authVerifyEmailCallbackIndexRoute;
 }
 export interface FileRoutesByTo {
@@ -84,6 +92,7 @@ export interface FileRoutesByTo {
   "/sign-up": typeof authSignUpIndexRoute;
   "/verify-email": typeof authVerifyEmailIndexRoute;
   "/dashboard": typeof AuthenticatedDashboardIndexRoute;
+  "/reset-password/request": typeof authResetPasswordRequestIndexRoute;
   "/verify-email/callback": typeof authVerifyEmailCallbackIndexRoute;
 }
 export interface FileRoutesById {
@@ -96,6 +105,7 @@ export interface FileRoutesById {
   "/(auth)/sign-up/": typeof authSignUpIndexRoute;
   "/(auth)/verify-email/": typeof authVerifyEmailIndexRoute;
   "/_authenticated/dashboard/": typeof AuthenticatedDashboardIndexRoute;
+  "/(auth)/reset-password/request/": typeof authResetPasswordRequestIndexRoute;
   "/(auth)/verify-email/callback/": typeof authVerifyEmailCallbackIndexRoute;
 }
 export interface FileRouteTypes {
@@ -108,6 +118,7 @@ export interface FileRouteTypes {
     | "/sign-up/"
     | "/verify-email/"
     | "/dashboard/"
+    | "/reset-password/request/"
     | "/verify-email/callback/";
   fileRoutesByTo: FileRoutesByTo;
   to:
@@ -118,6 +129,7 @@ export interface FileRouteTypes {
     | "/sign-up"
     | "/verify-email"
     | "/dashboard"
+    | "/reset-password/request"
     | "/verify-email/callback";
   id:
     | "__root__"
@@ -129,6 +141,7 @@ export interface FileRouteTypes {
     | "/(auth)/sign-up/"
     | "/(auth)/verify-email/"
     | "/_authenticated/dashboard/"
+    | "/(auth)/reset-password/request/"
     | "/(auth)/verify-email/callback/";
   fileRoutesById: FileRoutesById;
 }
@@ -140,6 +153,7 @@ export interface RootRouteChildren {
   authSignInIndexRoute: typeof authSignInIndexRoute;
   authSignUpIndexRoute: typeof authSignUpIndexRoute;
   authVerifyEmailIndexRoute: typeof authVerifyEmailIndexRoute;
+  authResetPasswordRequestIndexRoute: typeof authResetPasswordRequestIndexRoute;
   authVerifyEmailCallbackIndexRoute: typeof authVerifyEmailCallbackIndexRoute;
 }
 
@@ -201,6 +215,13 @@ declare module "@tanstack/react-router" {
       preLoaderRoute: typeof ApiAuthSplatRouteImport;
       parentRoute: typeof rootRouteImport;
     };
+    "/(auth)/reset-password/request/": {
+      id: "/(auth)/reset-password/request/";
+      path: "/reset-password/request";
+      fullPath: "/reset-password/request/";
+      preLoaderRoute: typeof authResetPasswordRequestIndexRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
     "/(auth)/verify-email/callback/": {
       id: "/(auth)/verify-email/callback/";
       path: "/verify-email/callback";
@@ -230,6 +251,7 @@ const rootRouteChildren: RootRouteChildren = {
   authSignInIndexRoute: authSignInIndexRoute,
   authSignUpIndexRoute: authSignUpIndexRoute,
   authVerifyEmailIndexRoute: authVerifyEmailIndexRoute,
+  authResetPasswordRequestIndexRoute: authResetPasswordRequestIndexRoute,
   authVerifyEmailCallbackIndexRoute: authVerifyEmailCallbackIndexRoute,
 };
 export const routeTree = rootRouteImport
