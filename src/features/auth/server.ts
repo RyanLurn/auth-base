@@ -22,6 +22,7 @@ import {
   SESSION_DATA_COOKIE_SUFFIX,
   SESSION_TOKEN_COOKIE_SUFFIX,
 } from "@/features/auth/constants";
+import ResetPassword from "@/features/email/components/emails/reset-password";
 import VerifyEmail from "@/features/email/components/emails/verify-email";
 import { sendEmail } from "@/features/email/operations/send";
 
@@ -60,6 +61,29 @@ export const authServer = betterAuth({
     minPasswordLength: MIN_PASSWORD_LENGTH,
     maxPasswordLength: MAX_PASSWORD_LENGTH,
     revokeSessionsOnPasswordReset: true,
+    sendResetPassword: async ({ user, url }) => {
+      void sendEmail({
+        to: user.email,
+        subject: "Reset your password",
+        reactEmail: createElement(ResetPassword, {
+          name: user.name,
+          resetUrl: url,
+        }),
+      }).then((value) => {
+        if (value.provider === "resend") {
+          const { result } = value;
+          if (!result.success) {
+            console.error(result.error);
+          }
+          return;
+        }
+
+        const { result } = value;
+        if (!result.success) {
+          console.error(result.error);
+        }
+      });
+    },
   },
   emailVerification: {
     autoSignInAfterVerification: true,
