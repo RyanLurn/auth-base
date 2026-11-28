@@ -16,6 +16,7 @@ import { Route as authSignUpIndexRouteImport } from "./routes/(auth)/sign-up/ind
 import { Route as authVerifyEmailIndexRouteImport } from "./routes/(auth)/verify-email/index";
 import { Route as AuthenticatedDashboardIndexRouteImport } from "./routes/_authenticated/dashboard/index";
 import { Route as ApiAuthSplatRouteImport } from "./routes/api/auth/$";
+import { Route as authVerifyEmailCallbackIndexRouteImport } from "./routes/(auth)/verify-email/callback/index";
 
 const IndexRoute = IndexRouteImport.update({
   id: "/",
@@ -52,6 +53,12 @@ const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
   path: "/api/auth/$",
   getParentRoute: () => rootRouteImport,
 } as any);
+const authVerifyEmailCallbackIndexRoute =
+  authVerifyEmailCallbackIndexRouteImport.update({
+    id: "/(auth)/verify-email/callback/",
+    path: "/verify-email/callback/",
+    getParentRoute: () => rootRouteImport,
+  } as any);
 
 export interface FileRoutesByFullPath {
   "/": typeof IndexRoute;
@@ -60,6 +67,7 @@ export interface FileRoutesByFullPath {
   "/sign-up/": typeof authSignUpIndexRoute;
   "/verify-email/": typeof authVerifyEmailIndexRoute;
   "/dashboard/": typeof AuthenticatedDashboardIndexRoute;
+  "/verify-email/callback/": typeof authVerifyEmailCallbackIndexRoute;
 }
 export interface FileRoutesByTo {
   "/": typeof IndexRoute;
@@ -68,6 +76,7 @@ export interface FileRoutesByTo {
   "/sign-up": typeof authSignUpIndexRoute;
   "/verify-email": typeof authVerifyEmailIndexRoute;
   "/dashboard": typeof AuthenticatedDashboardIndexRoute;
+  "/verify-email/callback": typeof authVerifyEmailCallbackIndexRoute;
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport;
@@ -78,6 +87,7 @@ export interface FileRoutesById {
   "/(auth)/sign-up/": typeof authSignUpIndexRoute;
   "/(auth)/verify-email/": typeof authVerifyEmailIndexRoute;
   "/_authenticated/dashboard/": typeof AuthenticatedDashboardIndexRoute;
+  "/(auth)/verify-email/callback/": typeof authVerifyEmailCallbackIndexRoute;
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath;
@@ -87,7 +97,8 @@ export interface FileRouteTypes {
     | "/sign-in/"
     | "/sign-up/"
     | "/verify-email/"
-    | "/dashboard/";
+    | "/dashboard/"
+    | "/verify-email/callback/";
   fileRoutesByTo: FileRoutesByTo;
   to:
     | "/"
@@ -95,7 +106,8 @@ export interface FileRouteTypes {
     | "/sign-in"
     | "/sign-up"
     | "/verify-email"
-    | "/dashboard";
+    | "/dashboard"
+    | "/verify-email/callback";
   id:
     | "__root__"
     | "/"
@@ -104,7 +116,8 @@ export interface FileRouteTypes {
     | "/(auth)/sign-in/"
     | "/(auth)/sign-up/"
     | "/(auth)/verify-email/"
-    | "/_authenticated/dashboard/";
+    | "/_authenticated/dashboard/"
+    | "/(auth)/verify-email/callback/";
   fileRoutesById: FileRoutesById;
 }
 export interface RootRouteChildren {
@@ -114,6 +127,7 @@ export interface RootRouteChildren {
   authSignInIndexRoute: typeof authSignInIndexRoute;
   authSignUpIndexRoute: typeof authSignUpIndexRoute;
   authVerifyEmailIndexRoute: typeof authVerifyEmailIndexRoute;
+  authVerifyEmailCallbackIndexRoute: typeof authVerifyEmailCallbackIndexRoute;
 }
 
 declare module "@tanstack/react-router" {
@@ -167,6 +181,13 @@ declare module "@tanstack/react-router" {
       preLoaderRoute: typeof ApiAuthSplatRouteImport;
       parentRoute: typeof rootRouteImport;
     };
+    "/(auth)/verify-email/callback/": {
+      id: "/(auth)/verify-email/callback/";
+      path: "/verify-email/callback";
+      fullPath: "/verify-email/callback/";
+      preLoaderRoute: typeof authVerifyEmailCallbackIndexRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
   }
 }
 
@@ -188,6 +209,7 @@ const rootRouteChildren: RootRouteChildren = {
   authSignInIndexRoute: authSignInIndexRoute,
   authSignUpIndexRoute: authSignUpIndexRoute,
   authVerifyEmailIndexRoute: authVerifyEmailIndexRoute,
+  authVerifyEmailCallbackIndexRoute: authVerifyEmailCallbackIndexRoute,
 };
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
