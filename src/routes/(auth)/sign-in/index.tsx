@@ -1,7 +1,7 @@
 import { HTTP_CLIENT_ERROR_RESPONSE_STATUS_ENUM } from "@little-nebulae/http";
 import { EmailSchema } from "@little-nebulae/zod-schemas";
 import { useSelector } from "@tanstack/react-form";
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { BASE_ERROR_CODES } from "better-auth";
 import { cn } from "cn";
 
@@ -34,7 +34,7 @@ export const Route = createFileRoute("/(auth)/sign-in/")({
 
 function SignInPage() {
   const { redirect } = Route.useSearch();
-  const navigate = useNavigate({ from: "/sign-up/" });
+  const navigate = Route.useNavigate();
 
   const signInForm = useAppForm({
     formId: "sign-in-form",
