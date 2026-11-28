@@ -197,7 +197,16 @@ function ResetPasswordPage() {
           </form>
         </CardContent>
         {/* Form card's footer */}
-        <CardFooter className="flex-col gap-y-2"></CardFooter>
+        <CardFooter className="flex-col gap-y-2">
+          {/* Submit button */}
+          <resetPasswordForm.AppForm>
+            <resetPasswordForm.SubmitButton
+              submittingText="Reseting..."
+              submitText="Reset password"
+              className="w-full"
+            />
+          </resetPasswordForm.AppForm>
+        </CardFooter>
       </Card>
     </div>
   );
