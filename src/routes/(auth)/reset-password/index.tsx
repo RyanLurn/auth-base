@@ -9,6 +9,7 @@ import { ConfirmPasswordSchema, PasswordSchema } from "@/features/auth/schemas";
 import { useAppForm } from "@/lib/form/hooks";
 import { Route as RequestPasswordResetRoute } from "@/routes/(auth)/request-password-reset";
 import { Route as SignInRoute } from "@/routes/(auth)/sign-in";
+import { Route as SignUpRoute } from "@/routes/(auth)/sign-up";
 import { RedirectSearchParamSchema } from "@/utils/schemas/redirect";
 
 export const Route = createFileRoute("/(auth)/reset-password/")({
@@ -72,6 +73,20 @@ function ResetPasswordPage() {
           });
           await navigate({
             to: RequestPasswordResetRoute.to,
+            search: { redirect },
+          });
+          return;
+        }
+        // User not found case
+        if (error.code === BASE_ERROR_CODES.USER_NOT_FOUND.code) {
+          toast.add({
+            type: "error",
+            title: "Failed to reset password",
+            description:
+              "The account for this link no longer exists. Create a new account to continue.",
+          });
+          await navigate({
+            to: SignUpRoute.to,
             search: { redirect },
           });
           return;
