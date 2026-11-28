@@ -18,6 +18,7 @@ import { Route as authSignUpIndexRouteImport } from "./routes/(auth)/sign-up/ind
 import { Route as authVerifyEmailIndexRouteImport } from "./routes/(auth)/verify-email/index";
 import { Route as AuthenticatedDashboardIndexRouteImport } from "./routes/_authenticated/dashboard/index";
 import { Route as ApiAuthSplatRouteImport } from "./routes/api/auth/$";
+import { Route as authRequestPasswordResetCallbackIndexRouteImport } from "./routes/(auth)/request-password-reset/callback/index";
 import { Route as authVerifyEmailCallbackIndexRouteImport } from "./routes/(auth)/verify-email/callback/index";
 
 const IndexRoute = IndexRouteImport.update({
@@ -66,6 +67,12 @@ const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
   path: "/api/auth/$",
   getParentRoute: () => rootRouteImport,
 } as any);
+const authRequestPasswordResetCallbackIndexRoute =
+  authRequestPasswordResetCallbackIndexRouteImport.update({
+    id: "/(auth)/request-password-reset/callback/",
+    path: "/request-password-reset/callback/",
+    getParentRoute: () => rootRouteImport,
+  } as any);
 const authVerifyEmailCallbackIndexRoute =
   authVerifyEmailCallbackIndexRouteImport.update({
     id: "/(auth)/verify-email/callback/",
@@ -82,6 +89,7 @@ export interface FileRoutesByFullPath {
   "/sign-up/": typeof authSignUpIndexRoute;
   "/verify-email/": typeof authVerifyEmailIndexRoute;
   "/dashboard/": typeof AuthenticatedDashboardIndexRoute;
+  "/request-password-reset/callback/": typeof authRequestPasswordResetCallbackIndexRoute;
   "/verify-email/callback/": typeof authVerifyEmailCallbackIndexRoute;
 }
 export interface FileRoutesByTo {
@@ -93,6 +101,7 @@ export interface FileRoutesByTo {
   "/sign-up": typeof authSignUpIndexRoute;
   "/verify-email": typeof authVerifyEmailIndexRoute;
   "/dashboard": typeof AuthenticatedDashboardIndexRoute;
+  "/request-password-reset/callback": typeof authRequestPasswordResetCallbackIndexRoute;
   "/verify-email/callback": typeof authVerifyEmailCallbackIndexRoute;
 }
 export interface FileRoutesById {
@@ -106,6 +115,7 @@ export interface FileRoutesById {
   "/(auth)/sign-up/": typeof authSignUpIndexRoute;
   "/(auth)/verify-email/": typeof authVerifyEmailIndexRoute;
   "/_authenticated/dashboard/": typeof AuthenticatedDashboardIndexRoute;
+  "/(auth)/request-password-reset/callback/": typeof authRequestPasswordResetCallbackIndexRoute;
   "/(auth)/verify-email/callback/": typeof authVerifyEmailCallbackIndexRoute;
 }
 export interface FileRouteTypes {
@@ -119,6 +129,7 @@ export interface FileRouteTypes {
     | "/sign-up/"
     | "/verify-email/"
     | "/dashboard/"
+    | "/request-password-reset/callback/"
     | "/verify-email/callback/";
   fileRoutesByTo: FileRoutesByTo;
   to:
@@ -130,6 +141,7 @@ export interface FileRouteTypes {
     | "/sign-up"
     | "/verify-email"
     | "/dashboard"
+    | "/request-password-reset/callback"
     | "/verify-email/callback";
   id:
     | "__root__"
@@ -142,6 +154,7 @@ export interface FileRouteTypes {
     | "/(auth)/sign-up/"
     | "/(auth)/verify-email/"
     | "/_authenticated/dashboard/"
+    | "/(auth)/request-password-reset/callback/"
     | "/(auth)/verify-email/callback/";
   fileRoutesById: FileRoutesById;
 }
@@ -154,6 +167,7 @@ export interface RootRouteChildren {
   authSignInIndexRoute: typeof authSignInIndexRoute;
   authSignUpIndexRoute: typeof authSignUpIndexRoute;
   authVerifyEmailIndexRoute: typeof authVerifyEmailIndexRoute;
+  authRequestPasswordResetCallbackIndexRoute: typeof authRequestPasswordResetCallbackIndexRoute;
   authVerifyEmailCallbackIndexRoute: typeof authVerifyEmailCallbackIndexRoute;
 }
 
@@ -222,6 +236,13 @@ declare module "@tanstack/react-router" {
       preLoaderRoute: typeof ApiAuthSplatRouteImport;
       parentRoute: typeof rootRouteImport;
     };
+    "/(auth)/request-password-reset/callback/": {
+      id: "/(auth)/request-password-reset/callback/";
+      path: "/request-password-reset/callback";
+      fullPath: "/request-password-reset/callback/";
+      preLoaderRoute: typeof authRequestPasswordResetCallbackIndexRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
     "/(auth)/verify-email/callback/": {
       id: "/(auth)/verify-email/callback/";
       path: "/verify-email/callback";
@@ -252,6 +273,8 @@ const rootRouteChildren: RootRouteChildren = {
   authSignInIndexRoute: authSignInIndexRoute,
   authSignUpIndexRoute: authSignUpIndexRoute,
   authVerifyEmailIndexRoute: authVerifyEmailIndexRoute,
+  authRequestPasswordResetCallbackIndexRoute:
+    authRequestPasswordResetCallbackIndexRoute,
   authVerifyEmailCallbackIndexRoute: authVerifyEmailCallbackIndexRoute,
 };
 export const routeTree = rootRouteImport
