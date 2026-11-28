@@ -1,4 +1,5 @@
 import { APP_NAME } from "@/config/constants";
+import { RESET_PASSWORD_TOKEN_EXPIRES_IN_MINUTES } from "@/features/auth/constants";
 import { EmailLayout } from "@/features/email/components/layout";
 import { EmailButton } from "@/features/email/components/ui/button";
 import { EmailHeading } from "@/features/email/components/ui/heading";
@@ -9,13 +10,13 @@ import { EmailText } from "@/features/email/components/ui/text";
 type ResetPasswordProps = {
   name?: string;
   resetUrl: string;
-  expiresIn?: string;
+  expiresInMinutes: number;
 };
 
 export default function ResetPassword({
   name,
   resetUrl,
-  expiresIn = "1 hour",
+  expiresInMinutes,
 }: ResetPasswordProps) {
   return (
     <EmailLayout
@@ -30,7 +31,8 @@ export default function ResetPassword({
       </EmailText>
       <EmailButton href={resetUrl}>Reset password</EmailButton>
       <EmailText muted>
-        This link expires in {expiresIn} and can only be used once.
+        This link expires in {expiresInMinutes} minutes and can only be used
+        once.
       </EmailText>
       <EmailSeparator />
       <EmailLinkFallback href={resetUrl} />
@@ -41,5 +43,5 @@ export default function ResetPassword({
 ResetPassword.PreviewProps = {
   name: "Ada",
   resetUrl: "https://example.com/reset-password?token=abc123",
-  expiresIn: "1 hour",
+  expiresInMinutes: RESET_PASSWORD_TOKEN_EXPIRES_IN_MINUTES,
 } satisfies ResetPasswordProps;

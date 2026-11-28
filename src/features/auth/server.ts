@@ -19,6 +19,7 @@ import {
   EMAIL_VERIFICATION_EXPIRES_IN_MINUTES,
   MAX_PASSWORD_LENGTH,
   MIN_PASSWORD_LENGTH,
+  RESET_PASSWORD_TOKEN_EXPIRES_IN_MINUTES,
   SESSION_DATA_COOKIE_SUFFIX,
   SESSION_TOKEN_COOKIE_SUFFIX,
 } from "@/features/auth/constants";
@@ -61,6 +62,7 @@ export const authServer = betterAuth({
     minPasswordLength: MIN_PASSWORD_LENGTH,
     maxPasswordLength: MAX_PASSWORD_LENGTH,
     revokeSessionsOnPasswordReset: true,
+    resetPasswordTokenExpiresIn: RESET_PASSWORD_TOKEN_EXPIRES_IN_MINUTES,
     sendResetPassword: async ({ user, url }) => {
       void sendEmail({
         to: user.email,
@@ -68,6 +70,7 @@ export const authServer = betterAuth({
         reactEmail: createElement(ResetPassword, {
           name: user.name,
           resetUrl: url,
+          expiresInMinutes: RESET_PASSWORD_TOKEN_EXPIRES_IN_MINUTES,
         }),
       }).then((value) => {
         if (value.provider === "resend") {
