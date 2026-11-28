@@ -1,6 +1,6 @@
 import { EmailSchema } from "@little-nebulae/zod-schemas";
 import { useSelector } from "@tanstack/react-form";
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { cn } from "cn";
 
 import {
@@ -33,7 +33,7 @@ export const Route = createFileRoute("/(auth)/sign-up/")({
 
 function SignUpPage() {
   const { redirect } = Route.useSearch();
-  const navigate = useNavigate({ from: "/sign-up/" });
+  const navigate = Route.useNavigate();
 
   const signUpForm = useAppForm({
     formId: "sign-up-form",
