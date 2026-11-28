@@ -50,6 +50,7 @@ function ResetPasswordPage() {
           toast.add({
             type: "success",
             title: "Reset password successfully",
+            description: "You can now use the new password to sign in.",
           });
           await navigate({
             to: SignInRoute.to,
