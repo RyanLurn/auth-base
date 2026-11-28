@@ -1,11 +1,13 @@
 import { NonEmptyStringSchema } from "@little-nebulae/zod-schemas";
 import { createFileRoute } from "@tanstack/react-router";
+import { BASE_ERROR_CODES } from "better-auth";
 import { z } from "zod";
 
 import { toast } from "@/components/ui/toast";
 import { authClient } from "@/features/auth/client";
 import { ConfirmPasswordSchema, PasswordSchema } from "@/features/auth/schemas";
 import { useAppForm } from "@/lib/form/hooks";
+import { Route as RequestPasswordResetRoute } from "@/routes/(auth)/request-password-reset";
 import { Route as SignInRoute } from "@/routes/(auth)/sign-in";
 import { RedirectSearchParamSchema } from "@/utils/schemas/redirect";
 
@@ -60,6 +62,21 @@ function ResetPasswordPage() {
         }
 
         // Handle error cases
+        // Invalid token case
+        if (error.code === BASE_ERROR_CODES.INVALID_TOKEN.code) {
+          toast.add({
+            type: "error",
+            title: "Failed to reset password",
+            description:
+              "Your link is invalid. Please request a different one.",
+          });
+          await navigate({
+            to: RequestPasswordResetRoute.to,
+            search: { redirect },
+          });
+          return;
+        }
+        // Other cases
         toast.add({
           type: "error",
           title: "Failed to reset password",
