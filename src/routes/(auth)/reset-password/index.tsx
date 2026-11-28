@@ -15,6 +15,7 @@ import {
 import { FieldGroup } from "@/components/ui/field";
 import { toast } from "@/components/ui/toast";
 import { authClient } from "@/features/auth/client";
+import { MIN_PASSWORD_LENGTH } from "@/features/auth/constants";
 import { ConfirmPasswordSchema, PasswordSchema } from "@/features/auth/schemas";
 import { useAppForm } from "@/lib/form/hooks";
 import { Route as RequestPasswordResetRoute } from "@/routes/(auth)/request-password-reset";
@@ -144,7 +145,24 @@ function ResetPasswordPage() {
               void resetPasswordForm.handleSubmit();
             }}
           >
-            <FieldGroup></FieldGroup>
+            <FieldGroup>
+              {/* Password field */}
+              <resetPasswordForm.AppField
+                name="password"
+                validators={{
+                  onChange: PasswordSchema,
+                }}
+              >
+                {({ TextField }) => (
+                  <TextField
+                    placeholder={"*".repeat(MIN_PASSWORD_LENGTH)}
+                    disabled={isSubmitting}
+                    label="New password"
+                    type="password"
+                  />
+                )}
+              </resetPasswordForm.AppField>
+            </FieldGroup>
           </form>
         </CardContent>
         {/* Form card's footer */}
