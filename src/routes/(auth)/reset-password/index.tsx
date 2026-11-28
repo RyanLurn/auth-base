@@ -4,6 +4,15 @@ import { createFileRoute } from "@tanstack/react-router";
 import { BASE_ERROR_CODES } from "better-auth";
 import { z } from "zod";
 
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { FieldGroup } from "@/components/ui/field";
 import { toast } from "@/components/ui/toast";
 import { authClient } from "@/features/auth/client";
 import { ConfirmPasswordSchema, PasswordSchema } from "@/features/auth/schemas";
@@ -115,5 +124,32 @@ function ResetPasswordPage() {
     (state) => state.isSubmitting,
   );
 
-  return <div>Hello "/(auth)/reset-password/"!</div>;
+  return (
+    <div className="flex size-full flex-col items-center justify-center">
+      <Card className="w-full sm:max-w-sm">
+        {/* Form card's header */}
+        <CardHeader>
+          <CardTitle className="text-xl">Reset password</CardTitle>
+          <CardDescription>
+            Enter your new password to reset it.
+          </CardDescription>
+        </CardHeader>
+        {/* Form card's content */}
+        <CardContent>
+          {/* Form element */}
+          <form
+            id={resetPasswordForm.formId}
+            onSubmit={(e) => {
+              e.preventDefault();
+              void resetPasswordForm.handleSubmit();
+            }}
+          >
+            <FieldGroup></FieldGroup>
+          </form>
+        </CardContent>
+        {/* Form card's footer */}
+        <CardFooter className="flex-col gap-y-2"></CardFooter>
+      </Card>
+    </div>
+  );
 }
