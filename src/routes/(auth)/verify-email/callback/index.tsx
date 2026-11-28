@@ -1,6 +1,17 @@
-import { createFileRoute } from "@tanstack/react-router";
+import type { LucideIcon } from "lucide-react";
+
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { MailX, TriangleAlert, UserX } from "lucide-react";
 import { z } from "zod";
 
+import { buttonVariants } from "@/components/ui/button";
+import {
+  Card,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { RedirectSearchParamSchema } from "@/utils/schemas/redirect";
 
 export const Route = createFileRoute("/(auth)/verify-email/callback/")({
@@ -12,6 +23,95 @@ export const Route = createFileRoute("/(auth)/verify-email/callback/")({
   component: VerifyEmailCallbackPage,
 });
 
+type ErrorCopy = {
+  icon: LucideIcon;
+  title: string;
+  description: string;
+  action: "resend" | "sign-up";
+};
+
+const errorCopy: Record<string, ErrorCopy> = {
+  TOKEN_EXPIRED: {
+    icon: MailX,
+    title: "This link has expired",
+    description:
+      "Verification links are only valid for a short time. Request a new one to continue.",
+    action: "resend",
+  },
+  INVALID_TOKEN: {
+    icon: MailX,
+    title: "This link isn't valid",
+    description:
+      "The link may be incomplete or have been replaced by a newer email. Request a new one to continue.",
+    action: "resend",
+  },
+  USER_NOT_FOUND: {
+    icon: UserX,
+    title: "We couldn't find your account",
+    description:
+      "The account for this link no longer exists. Create a new account to continue.",
+    action: "sign-up",
+  },
+};
+
+const fallbackCopy: ErrorCopy = {
+  icon: TriangleAlert,
+  title: "We couldn't verify your email",
+  description:
+    "Something went wrong while verifying your email. Request a new link to try again.",
+  action: "resend",
+};
+
 function VerifyEmailCallbackPage() {
-  return <div>Hello "/(auth)/verify-email/callback/"!</div>;
+  const { email, error, redirect } = Route.useSearch();
+  const {
+    icon: Icon,
+    title,
+    description,
+    action,
+  } = (error ? errorCopy[error] : undefined) ?? fallbackCopy;
+
+  return (
+    <main className="flex size-full items-center justify-center p-4">
+      <Card className="w-full max-w-md text-center">
+        <CardHeader>
+          <div className="mb-2 flex size-12 items-center justify-center justify-self-center rounded-full bg-muted text-muted-foreground">
+            <Icon className="size-6" aria-hidden="true" />
+          </div>
+          <CardTitle className="text-xl">{title}</CardTitle>
+          <CardDescription className="text-balance">
+            {description}
+          </CardDescription>
+        </CardHeader>
+
+        <CardFooter className="flex-col gap-2">
+          {action === "sign-up" ? (
+            <Link
+              to="/sign-up"
+              search={{ redirect }}
+              className={buttonVariants({ className: "w-full" })}
+            >
+              Create an account
+            </Link>
+          ) : email ? (
+            <Link
+              to="/verify-email"
+              search={{ email, reason: "sign-in", redirect }}
+              className={buttonVariants({ className: "w-full" })}
+            >
+              Request a new link
+            </Link>
+          ) : null}
+
+          <Link
+            to="/sign-in"
+            search={{ redirect }}
+            className={buttonVariants({ variant: "link", size: "sm" })}
+          >
+            Back to sign in
+          </Link>
+        </CardFooter>
+      </Card>
+    </main>
+  );
 }
