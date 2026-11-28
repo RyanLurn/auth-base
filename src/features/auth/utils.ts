@@ -6,7 +6,7 @@ export function getCallbackUrl({
   redirect = DashboardRoute.to,
 }: {
   email: string;
-  redirect?: string;
+  redirect?: string | undefined;
 }) {
   return `${VerifyEmailCallbackRoute.to}?${new URLSearchParams({ email, redirect })}`;
 }

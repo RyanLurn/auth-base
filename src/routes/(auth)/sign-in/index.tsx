@@ -22,9 +22,9 @@ import {
   RememberMeSchema,
   SignInParamsSchema,
 } from "@/features/auth/schemas";
+import { getCallbackUrl } from "@/features/auth/utils";
 import { useAppForm } from "@/lib/form/hooks";
 import { Route as VerifyEmailRoute } from "@/routes/(auth)/verify-email";
-import { Route as DashboardRoute } from "@/routes/_authenticated/dashboard";
 import { RedirectSearchParamSchema } from "@/utils/schemas/redirect";
 
 export const Route = createFileRoute("/(auth)/sign-in/")({
@@ -58,7 +58,7 @@ function SignInPage() {
           email,
           password,
           rememberMe,
-          callbackURL: redirect ?? DashboardRoute.to,
+          callbackURL: getCallbackUrl({ email, redirect }),
         });
 
         // Handle success case

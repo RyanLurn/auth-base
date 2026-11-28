@@ -15,7 +15,7 @@ import {
 import { Spinner } from "@/components/ui/spinner";
 import { toast } from "@/components/ui/toast";
 import { authClient } from "@/features/auth/client";
-import { Route as DashboardRoute } from "@/routes/_authenticated/dashboard";
+import { getCallbackUrl } from "@/features/auth/utils";
 import { RedirectSearchParamSchema } from "@/utils/schemas/redirect";
 
 const RESEND_COOLDOWN_SECONDS = 30;
@@ -71,7 +71,7 @@ function VerifyEmailPage() {
     try {
       const { error } = await authClient.sendVerificationEmail({
         email,
-        callbackURL: redirect ?? DashboardRoute.to,
+        callbackURL: getCallbackUrl({ email, redirect }),
       });
 
       // Handle success case
