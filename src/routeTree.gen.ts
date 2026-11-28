@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from "./routes/__root";
 import { Route as IndexRouteImport } from "./routes/index";
 import { Route as AuthenticatedRouteRouteImport } from "./routes/_authenticated/route";
+import { Route as authRequestPasswordResetIndexRouteImport } from "./routes/(auth)/request-password-reset/index";
 import { Route as authResetPasswordIndexRouteImport } from "./routes/(auth)/reset-password/index";
 import { Route as authSignInIndexRouteImport } from "./routes/(auth)/sign-in/index";
 import { Route as authSignUpIndexRouteImport } from "./routes/(auth)/sign-up/index";
@@ -28,6 +29,12 @@ const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
   id: "/_authenticated",
   getParentRoute: () => rootRouteImport,
 } as any);
+const authRequestPasswordResetIndexRoute =
+  authRequestPasswordResetIndexRouteImport.update({
+    id: "/(auth)/request-password-reset/",
+    path: "/request-password-reset/",
+    getParentRoute: () => rootRouteImport,
+  } as any);
 const authResetPasswordIndexRoute = authResetPasswordIndexRouteImport.update({
   id: "/(auth)/reset-password/",
   path: "/reset-password/",
@@ -69,6 +76,7 @@ const authVerifyEmailCallbackIndexRoute =
 export interface FileRoutesByFullPath {
   "/": typeof IndexRoute;
   "/api/auth/$": typeof ApiAuthSplatRoute;
+  "/request-password-reset/": typeof authRequestPasswordResetIndexRoute;
   "/reset-password/": typeof authResetPasswordIndexRoute;
   "/sign-in/": typeof authSignInIndexRoute;
   "/sign-up/": typeof authSignUpIndexRoute;
@@ -79,6 +87,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   "/": typeof IndexRoute;
   "/api/auth/$": typeof ApiAuthSplatRoute;
+  "/request-password-reset": typeof authRequestPasswordResetIndexRoute;
   "/reset-password": typeof authResetPasswordIndexRoute;
   "/sign-in": typeof authSignInIndexRoute;
   "/sign-up": typeof authSignUpIndexRoute;
@@ -91,6 +100,7 @@ export interface FileRoutesById {
   "/": typeof IndexRoute;
   "/_authenticated": typeof AuthenticatedRouteRouteWithChildren;
   "/api/auth/$": typeof ApiAuthSplatRoute;
+  "/(auth)/request-password-reset/": typeof authRequestPasswordResetIndexRoute;
   "/(auth)/reset-password/": typeof authResetPasswordIndexRoute;
   "/(auth)/sign-in/": typeof authSignInIndexRoute;
   "/(auth)/sign-up/": typeof authSignUpIndexRoute;
@@ -103,6 +113,7 @@ export interface FileRouteTypes {
   fullPaths:
     | "/"
     | "/api/auth/$"
+    | "/request-password-reset/"
     | "/reset-password/"
     | "/sign-in/"
     | "/sign-up/"
@@ -113,6 +124,7 @@ export interface FileRouteTypes {
   to:
     | "/"
     | "/api/auth/$"
+    | "/request-password-reset"
     | "/reset-password"
     | "/sign-in"
     | "/sign-up"
@@ -124,6 +136,7 @@ export interface FileRouteTypes {
     | "/"
     | "/_authenticated"
     | "/api/auth/$"
+    | "/(auth)/request-password-reset/"
     | "/(auth)/reset-password/"
     | "/(auth)/sign-in/"
     | "/(auth)/sign-up/"
@@ -136,6 +149,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute;
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren;
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute;
+  authRequestPasswordResetIndexRoute: typeof authRequestPasswordResetIndexRoute;
   authResetPasswordIndexRoute: typeof authResetPasswordIndexRoute;
   authSignInIndexRoute: typeof authSignInIndexRoute;
   authSignUpIndexRoute: typeof authSignUpIndexRoute;
@@ -157,6 +171,13 @@ declare module "@tanstack/react-router" {
       path: "";
       fullPath: "/";
       preLoaderRoute: typeof AuthenticatedRouteRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
+    "/(auth)/request-password-reset/": {
+      id: "/(auth)/request-password-reset/";
+      path: "/request-password-reset";
+      fullPath: "/request-password-reset/";
+      preLoaderRoute: typeof authRequestPasswordResetIndexRouteImport;
       parentRoute: typeof rootRouteImport;
     };
     "/(auth)/reset-password/": {
@@ -226,6 +247,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
+  authRequestPasswordResetIndexRoute: authRequestPasswordResetIndexRoute,
   authResetPasswordIndexRoute: authResetPasswordIndexRoute,
   authSignInIndexRoute: authSignInIndexRoute,
   authSignUpIndexRoute: authSignUpIndexRoute,
