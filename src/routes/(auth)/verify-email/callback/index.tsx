@@ -1,6 +1,7 @@
 import type { LucideIcon } from "lucide-react";
 
 import { createFileRoute, Link, redirect } from "@tanstack/react-router";
+import { BASE_ERROR_CODES } from "better-auth";
 import { MailX, TriangleAlert, UserX } from "lucide-react";
 import { z } from "zod";
 
@@ -37,21 +38,21 @@ type ErrorCopy = {
 };
 
 const errorCopy: Record<string, ErrorCopy> = {
-  TOKEN_EXPIRED: {
+  [BASE_ERROR_CODES.TOKEN_EXPIRED.code]: {
     icon: MailX,
     title: "This link has expired",
     description:
       "Verification links are only valid for a short time. Request a new one to continue.",
     action: "resend",
   },
-  INVALID_TOKEN: {
+  [BASE_ERROR_CODES.INVALID_TOKEN.code]: {
     icon: MailX,
     title: "This link isn't valid",
     description:
       "The link may be incomplete or have been replaced by a newer email. Request a new one to continue.",
     action: "resend",
   },
-  USER_NOT_FOUND: {
+  [BASE_ERROR_CODES.USER_NOT_FOUND.code]: {
     icon: UserX,
     title: "We couldn't find your account",
     description:
