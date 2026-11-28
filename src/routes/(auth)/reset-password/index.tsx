@@ -162,6 +162,37 @@ function ResetPasswordPage() {
                   />
                 )}
               </resetPasswordForm.AppField>
+              {/* Confirm password field */}
+              <resetPasswordForm.AppField
+                name="confirmPassword"
+                validators={{
+                  onChangeListenTo: ["password"],
+                  onChange: ({ value, fieldApi }) => {
+                    const parseResult = ConfirmPasswordSchema.safeParse(value);
+                    if (!parseResult.success) {
+                      return parseResult.error.issues;
+                    }
+
+                    if (
+                      parseResult.data !==
+                      fieldApi.form.getFieldValue("password")
+                    ) {
+                      return [{ message: "Passwords do not match." }];
+                    }
+
+                    return undefined;
+                  },
+                }}
+              >
+                {({ TextField }) => (
+                  <TextField
+                    placeholder={"*".repeat(MIN_PASSWORD_LENGTH)}
+                    label="Confirm new password"
+                    disabled={isSubmitting}
+                    type="password"
+                  />
+                )}
+              </resetPasswordForm.AppField>
             </FieldGroup>
           </form>
         </CardContent>
