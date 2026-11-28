@@ -1,4 +1,5 @@
 import { NonEmptyStringSchema } from "@little-nebulae/zod-schemas";
+import { useSelector } from "@tanstack/react-form";
 import { createFileRoute } from "@tanstack/react-router";
 import { BASE_ERROR_CODES } from "better-auth";
 import { z } from "zod";
@@ -108,6 +109,11 @@ function ResetPasswordPage() {
       }
     },
   });
+
+  const isSubmitting = useSelector(
+    resetPasswordForm.store,
+    (state) => state.isSubmitting,
+  );
 
   return <div>Hello "/(auth)/reset-password/"!</div>;
 }
